@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE student PUBLIC "-//Joy of Coding at PSU//DTD Grade Book//EN" "http://www.cs.pdx.edu/~whitlock/dtds/gradebook.dtd">
+<student enrolled-section="undergraduate">
+<id>ysaleh</id>
+<firstName>Yasmine</firstName>
+<lastName>Saleh</lastName>
+<email>ysaleh@pdx.edu</email>
+<major>Computer Science</major>
+<github-user-name>yasminesaleh1</github-user-name>
+<notes>
+<note>Yasmine Saleh has these comments: My apologies for resubmitting this; I wanted to have the repository on my other github account instead of the previous one and am redoing this to have the me.xml file.</note>
+</notes>
+</student>
