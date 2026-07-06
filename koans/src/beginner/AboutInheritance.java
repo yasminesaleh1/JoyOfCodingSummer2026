@@ -71,20 +71,20 @@ public class AboutInheritance {
         Animal bob = new Cow();
         assertEquals(someAnimal.makeSomeNoise().equals(bob.makeSomeNoise()), true);
         // cow is a Cow, but it can also be an animal
-        assertEquals(bob instanceof Animal, __);
-        assertEquals(bob instanceof Cow, __);
+        assertEquals(bob instanceof Animal, bob instanceof Cow);  // could also put true in the blank
+        assertEquals(bob instanceof Cow, bob instanceof Animal);  // could also put true in the blank
         // but is it a Puppy?
-        assertEquals(bob instanceof Puppy, __);
+        assertEquals(bob instanceof Puppy, false);
     }
 
     @Koan
     public void deeperInheritanceHierarchy() {
         Dog max = new Dog();
         Puppy barney = new Puppy();
-        assertEquals(max instanceof Puppy, __);
-        assertEquals(max instanceof Dog, __);
-        assertEquals(barney instanceof Puppy, __);
-        assertEquals(barney instanceof Dog, __);
+        assertEquals(max instanceof Puppy, false);
+        assertEquals(max instanceof Dog, true);
+        assertEquals(barney instanceof Puppy, true);
+        assertEquals(barney instanceof Dog, true);
     }
 
     // TODO overriding
