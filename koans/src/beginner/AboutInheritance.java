@@ -44,12 +44,12 @@ public class AboutInheritance {
         Cow bob = new Cow();
         Dog max = new Dog();
         Puppy barney = new Puppy();
-        assertEquals(bob.makeSomeNoise(), __);
-        assertEquals(max.makeSomeNoise(), __);
-        assertEquals(barney.makeSomeNoise(), __);
+        assertEquals(bob.makeSomeNoise(), "Moo!");
+        assertEquals(max.makeSomeNoise(), "Woof!");
+        assertEquals(barney.makeSomeNoise(), "Squeak!");
 
-        assertEquals(max.canFetch(), __);
-        assertEquals(barney.canFetch(), __);
+        assertEquals(max.canFetch(), true);
+        assertEquals(barney.canFetch(), false);
         // but can Bob the Cow fetch?
     }
 
@@ -58,9 +58,9 @@ public class AboutInheritance {
         Animal bob = new Cow();
         Animal max = new Dog();
         Animal barney = new Puppy();
-        assertEquals(bob.makeSomeNoise(), __);
-        assertEquals(max.makeSomeNoise(), __);
-        assertEquals(barney.makeSomeNoise(), __);
+        assertEquals(bob.makeSomeNoise(), "Moo!");
+        assertEquals(max.makeSomeNoise(), "Woof!");
+        assertEquals(barney.makeSomeNoise(), "Squeak!");
         // but can max or barney (here as an Animal) fetch?
         // try to write it down here
     }
@@ -69,7 +69,7 @@ public class AboutInheritance {
     public void inheritanceHierarchy() {
         Animal someAnimal = new Cow();
         Animal bob = new Cow();
-        assertEquals(someAnimal.makeSomeNoise().equals(bob.makeSomeNoise()), __);
+        assertEquals(someAnimal.makeSomeNoise().equals(bob.makeSomeNoise()), true);
         // cow is a Cow, but it can also be an animal
         assertEquals(bob instanceof Animal, __);
         assertEquals(bob instanceof Cow, __);
