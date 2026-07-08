@@ -26,7 +26,7 @@ public class AboutConstructors {
 
     @Koan
     public void simpleConstructorOrder() {
-        assertEquals(new B().someString, __);
+        assertEquals(new B().someString, "axg");
     }
 
     class Aa {
@@ -51,7 +51,9 @@ public class AboutConstructors {
 
     @Koan
     public void complexConstructorOrder() {
-        assertEquals(new Bb().someString, __);
+        // if super's arg-constructor is called then it takes place
+        // of the default constructor
+        assertEquals(new Bb().someString, "aBoog");
     }
 
 }
