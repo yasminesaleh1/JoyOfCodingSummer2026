@@ -2,6 +2,8 @@ package intermediate;
 
 import com.sandwich.koan.Koan;
 
+import java.util.Objects;
+
 import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 
@@ -42,13 +44,26 @@ public class AboutEquality {
             // Change this implementation to match the equals contract
             // Car objects with same horsepower and name values should be considered equal
             // http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#equals(java.lang.Object)
+
+            // reference: https://www.geeksforgeeks.org/java/overriding-equals-method-in-java/
+            if (other == this)
+                    return true;
+            if (!(other instanceof Car))
+                return false;
+            Car o = (Car) other;
+            if (o.horsepower == horsepower && o.name.equals(name))
+                return true;
             return false;
         }
 
         @Override
         public int hashCode() {
             // @see http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#hashCode()
-            return super.hashCode();
+
+            //reference: https://www.baeldung.com/java-override-hashcode-equals-records
+            return Objects.hash(name, horsepower);
+
+            //return super.hashCode();
         }
     }
 
@@ -103,7 +118,7 @@ public class AboutEquality {
 
         @Override
         public int hashCode() {
-            return 4000;
+            return Objects.hash(color);
         }
 
         @Override
@@ -119,8 +134,8 @@ public class AboutEquality {
         Chicken chicken1 = new Chicken();
         chicken1.color = "black";
         Chicken chicken2 = new Chicken();
-        assertEquals(chicken1.equals(chicken2), __);
-        assertEquals(chicken1.hashCode() == chicken2.hashCode(), __);
+        assertEquals(chicken1.equals(chicken2), false);
+        assertEquals(chicken1.hashCode() == chicken2.hashCode(), false);
         // Does this still fit the hashCode contract? Why (not)?
         // Fix the Chicken class to correct this.
     }
