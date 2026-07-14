@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * An integration test for the {@link Project1} main class.
  */
-class Project1IT extends InvokeMainTestCase {
+class   Project1IT extends InvokeMainTestCase {
 
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
