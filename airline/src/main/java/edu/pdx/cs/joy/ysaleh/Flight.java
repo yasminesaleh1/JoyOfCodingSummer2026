@@ -29,12 +29,12 @@ public class Flight extends AbstractFlight {
   public String getSource() { return source; }
 
   @Override
-  public String getDepartureString() { return null; }  // temporary for project 1
+  public String getDepartureString() { return departureTime; }
 
   @Override
   public String getDestination() { return destination; }
 
   @Override
-  public String getArrivalString() { return null; }   // temporary for project 1
+  public String getArrivalString() { return arrivalTime; }
 
 }
