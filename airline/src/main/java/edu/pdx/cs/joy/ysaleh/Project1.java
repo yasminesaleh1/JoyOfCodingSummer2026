@@ -109,12 +109,16 @@ public class Project1 {
       // invalid departure date/time
       // The following dates and times are valid: 7/15/2026 10:39 and 06/2/2026 1:03
       // That is, the month and the day can be expressed as either 1 or 2 digits. The year should always be four digits.
-      if (!newDepart.matches("[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
-
+      if (!newDepart.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
+        throw new IllegalArgumentException("The flight departure time entered is not valid. The date and time for flight departure/arrival must be entered in the " +
+                "following format as two separate arguments on the command line, with the time in 24-hour format: mm/dd/yyyy hh:mm " +
+                "\nPlease re-run the program to try again, this time entering the departure date and time in the correct format.");
       }
       // invalid arrival date/time
-      if (!newArrive.matches("[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
-
+      if (!newArrive.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
+        throw new IllegalArgumentException("The flight arrival time entered is not valid. The date and time for flight departure/arrival must be entered in the " +
+                "following format as two separate arguments on the command line, with the time in 24-hour format: mm/dd/yyyy hh:mm " +
+                "\nPlease re-run the program to try again, this time entering the arrival date and time in the correct format.");
       }
 
       // creating the new airline and flight
@@ -126,7 +130,13 @@ public class Project1 {
         flight.toString();   // not sure this is correct
       }
 
-    } catch (ArrayIndexOutOfBoundsException e) {
+    } catch (NumberFormatException e) {
+      System.out.println("Non-numeric characters were detected in the argument for the flight number. " +
+              "The flight number must be a positive integer with no non-numeric characters.");
+      System.out.println("Please re-run the program to try again, this time including a flight number" +
+              "with integers only.");
+    }
+    catch (ArrayIndexOutOfBoundsException e) {
       // if ArrayIndexOutOfBoundsException was caught when accessing args[] then argument(s) are missing.
       System.out.println("There are arguments missing from the command line. " +
               "All the following arguments are required and must be included on the command line in this order: " +
@@ -140,12 +150,7 @@ public class Project1 {
       System.out.println(e.getMessage());  // defined above depending on scenario
       return;
     }
-    catch (NumberFormatException e) {
-      System.out.println("Non-numeric characters were detected in the argument for the flight number. " +
-              "The flight number must be a positive integer with no non-numeric characters.");
-      System.out.println("Please re-run the program to try again, this time including a flight number" +
-              "with integers only.");
-    }
+
 
 
 
