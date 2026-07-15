@@ -58,8 +58,8 @@ public class Project1 {
         newArrive = args[6] + args[7];   // date & time are separate
       }
 
-      // error handling below. I got some inspiration from the following code snippet from
-      // Google AI overview after googling "how to print thriwn exception message in java":
+      // error handling below. I got some inspiration (mainly from the use of getMessage()) from the following
+      // code snippet from Google AI overview after googling "how to print thriwn exception message in java":
       /*
       try {
         throw new IllegalArgumentException("Invalid age entered");
@@ -106,12 +106,23 @@ public class Project1 {
                 "destination airport codes can only contain 3 alphabetical characters; no numbers or special characters are allowed. " +
                 "\nPlease re-run the program to try again, this time entering a source airport code containing only 3 alphabetical characters.");
       }
+      // invalid departure date/time
+      // The following dates and times are valid: 7/15/2026 10:39 and 06/2/2026 1:03
+      // That is, the month and the day can be expressed as either 1 or 2 digits. The year should always be four digits.
+      if (!newDepart.matches("[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
 
+      }
+      // invalid arrival date/time
+      if (!newArrive.matches("[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
+
+      }
+
+      // creating the new airline and flight
       Airline airline = new Airline(newAirline);  // create new airline
       Flight flight = new Flight(newFlightNum, newSrc, newDepart, newDest, newArrive);  // create new flight
       airline.addFlight(flight);
 
-      if (printNewFlight) {
+      if (printNewFlight) {   // optional printing of the new flight
         flight.toString();   // not sure this is correct
       }
 
