@@ -20,21 +20,46 @@ public class Project1 {
     String newDest = "";
     String newArrive = "";
     boolean printNewFlight = false;
-    //Flight flight = new Flight();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-    //System.err.println("Missing airline information");
 
 
     try {
       /* When no command line arguments are provided, the program should provide a helpful
       message that explains how the program is used */
-      if (args[0] == null) {
-        // print helpful usage message
+      // inspo: https://stackoverflow.com/questions/3868878/java-check-if-command-line-arguments-are-null
+      if (args.length == 0) {
+        System.out.println("Welcome to my Airline Program. This program creates a new airline and flight based on the " +
+                "command line arguments you include. See below for usage of this program:");
+        System.out.println("usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
+                "\targs are (in this order):\n" +
+                "\t\tairline The name of the airline\n" +
+                "\t\tflightNumber The flight number\n" +
+                "\t\tsrc Three-letter code of departure airport\n" +
+                "\t\tdepart Departure date and time (24-hour time)\n" +
+                "\t\tdest Three-letter code of arrival airport\n" +
+                "\t\tarrive Arrival date and time (24-hour time)\n" +
+                "\toptions are (options may appear in any order):\n" +
+                "\t\t-print Prints a description of the new flight\n" +
+                "\t\t-README Prints a README for this project and exits\n" +
+                "\tDate and time should be in the format: mm/dd/yyyy hh:mm");
         return;
       }
 
       // README option
       if (args[0].equals("-README") || args[1].equals("-README")) { // may have to rmove the dash
-        // print README
+        System.out.println("Welcome to my Airline Program. This program creates a new airline and flight based on the " +
+                "command line arguments you include. See below for usage of this program:");
+        System.out.println("usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
+                "\targs are (in this order):\n" +
+                "\t\tairline The name of the airline\n" +
+                "\t\tflightNumber The flight number\n" +
+                "\t\tsrc Three-letter code of departure airport\n" +
+                "\t\tdepart Departure date and time (24-hour time)\n" +
+                "\t\tdest Three-letter code of arrival airport\n" +
+                "\t\tarrive Arrival date and time (24-hour time)\n" +
+                "\toptions are (options may appear in any order):\n" +
+                "\t\t-print Prints a description of the new flight\n" +
+                "\t\t-README Prints a README for this project and exits\n" +
+                "\tDate and time should be in the format: mm/dd/yyyy hh:mm");
         return;
       }
 
