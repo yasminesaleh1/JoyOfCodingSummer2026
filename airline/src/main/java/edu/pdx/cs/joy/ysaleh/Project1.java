@@ -46,7 +46,12 @@ public class Project1 {
 
       // README option
       if (args[0].equals("-README") || args[1].equals("-README")) { // may have to rmove the dash
-        System.out.println("Welcome to my Airline Program. This program creates a new airline and flight based on the " +
+        System.out.println("README\n---------------------------------------------------");
+        System.out.println("Name: Yasmine Saleh");
+        System.out.println("Course: CS 410: The Joy of Coding with Java and Android");
+        System.out.println("Instructor: David Whitlock");
+        System.out.println("Assignment: Project 1: Designing an Airline Application");
+        System.out.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
                 "command line arguments you include. See below for usage of this program:");
         System.out.println("usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
                 "\targs are (in this order):\n" +
