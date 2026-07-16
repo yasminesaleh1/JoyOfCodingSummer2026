@@ -27,9 +27,9 @@ public class Project1 {
       message that explains how the program is used */
       // inspo: https://stackoverflow.com/questions/3868878/java-check-if-command-line-arguments-are-null
       if (args.length == 0) {
-        System.out.println("Welcome to my Airline Program. This program creates a new airline and flight based on the " +
+        System.err.println("Welcome to my Airline Program. This program creates a new airline and flight based on the " +
                 "command line arguments you include. See below for usage of this program:");
-        System.out.println("usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
+        System.err.println("usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
                 "\targs are (in this order):\n" +
                 "\t\tairline The name of the airline\n" +
                 "\t\tflightNumber The flight number\n" +
