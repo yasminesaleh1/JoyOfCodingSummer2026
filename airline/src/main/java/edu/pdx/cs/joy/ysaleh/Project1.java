@@ -6,6 +6,19 @@ import com.google.common.annotations.VisibleForTesting;
  * The main class for the Airline Project
  */
 public class Project1 {
+  static final String PROGRAM_USAGE = "usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
+          "\targs are (in this order):\n" +
+          "\t\tairline The name of the airline\n" +
+          "\t\tflightNumber The flight number\n" +
+          "\t\tsrc Three-letter code of departure airport\n" +
+          "\t\tdepart Departure date and time (24-hour time)\n" +
+          "\t\tdest Three-letter code of arrival airport\n" +
+          "\t\tarrive Arrival date and time (24-hour time)\n" +
+          "\toptions are (options may appear in any order):\n" +
+          "\t\t-print Prints a description of the new flight\n" +
+          "\\t\\t-README Prints a README for this project and exits\n" +
+          "\tDate and time should be in the format: mm/dd/yyyy hh:mm";
+
 
   @VisibleForTesting
   static boolean isValidDateAndTime(String dateAndTime) {
@@ -30,23 +43,12 @@ public class Project1 {
         System.err.println("Missing airline information");
         System.err.println("\n\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
                 "command line arguments you include. See below for usage of this program:");
-        System.err.println("usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
-                "\targs are (in this order):\n" +
-                "\t\tairline The name of the airline\n" +
-                "\t\tflightNumber The flight number\n" +
-                "\t\tsrc Three-letter code of departure airport\n" +
-                "\t\tdepart Departure date and time (24-hour time)\n" +
-                "\t\tdest Three-letter code of arrival airport\n" +
-                "\t\tarrive Arrival date and time (24-hour time)\n" +
-                "\toptions are (options may appear in any order):\n" +
-                "\t\t-print Prints a description of the new flight\n" +
-                "\t\t-README Prints a README for this project and exits\n" +
-                "\tDate and time should be in the format: mm/dd/yyyy hh:mm");
+        System.err.println(PROGRAM_USAGE);
         return;
       }
 
       // README option
-      if (args[0].equals("-README") || args[1].equals("-README")) { // may have to rmove the dash
+      if (args[0].equals("-README") || args[1].equals("-README")) {
         System.out.println("README\n---------------------------------------------------");
         System.out.println("Name: Yasmine Saleh");
         System.out.println("Course: CS 410: The Joy of Coding with Java and Android");
@@ -54,20 +56,10 @@ public class Project1 {
         System.out.println("Assignment: Project 1: Designing an Airline Application");
         System.out.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
                 "command line arguments you include. See below for usage of this program:");
-        System.out.println("usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
-                "\targs are (in this order):\n" +
-                "\t\tairline The name of the airline\n" +
-                "\t\tflightNumber The flight number\n" +
-                "\t\tsrc Three-letter code of departure airport\n" +
-                "\t\tdepart Departure date and time (24-hour time)\n" +
-                "\t\tdest Three-letter code of arrival airport\n" +
-                "\t\tarrive Arrival date and time (24-hour time)\n" +
-                "\toptions are (options may appear in any order):\n" +
-                "\t\t-print Prints a description of the new flight\n" +
-                "\t\t-README Prints a README for this project and exits\n" +
-                "\tDate and time should be in the format: mm/dd/yyyy hh:mm");
+        System.out.println(PROGRAM_USAGE);
         return;
       }
+
 
       if (args[0].equals("-print")) {
         printNewFlight = true;
@@ -79,14 +71,19 @@ public class Project1 {
         newDest = args[6];
         newArrive = args[7] + args[8];   // date & time are separate
       }
+      // unknown option entered with a dash at the beginning of the command line
+      else if (args[0].matches("-.*")) {
+        throw new IllegalArgumentException("Invalid option entered at the beginning of the command line. " +
+                "Please see below for correct usage of this program:\n" + PROGRAM_USAGE);
+      }
       else {   // no optional arguments included on the command line
         newAirline = args[0];
         // below line may throw NumberFormatException if the str contains non-numeric chars
         newFlightNum = Integer.parseInt(args[1]);
         newSrc = args[2];
-        newDepart = args[3] + args[4];   // date & time are separate
+        newDepart = args[3] + " " + args[4];   // date & time are separate
         newDest = args[5];
-        newArrive = args[6] + args[7];   // date & time are separate
+        newArrive = args[6] + " " + args[7];   // date & time are separate
       }
 
       // error handling below. I got some inspiration (mainly from the use of getMessage()) from the following
