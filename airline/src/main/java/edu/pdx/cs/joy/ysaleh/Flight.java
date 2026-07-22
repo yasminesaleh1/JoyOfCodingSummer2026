@@ -71,4 +71,10 @@ public class Flight extends AbstractFlight {
   @Override
   public String getArrivalString() { return arrivalTime; }
 
+  /**
+   * getString() method which calls super's already-implemented toString() method
+   * @return the string representing the Flight object
+   */
+  public String getString() { return super.toString(); }
+
 }

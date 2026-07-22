@@ -2,6 +2,8 @@ package edu.pdx.cs.joy.ysaleh;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.awt.desktop.SystemEventListener;
+
 /**
  * The main class for the Airline Project
  */
@@ -16,7 +18,7 @@ public class Project1 {
           "\t\tarrive Arrival date and time (24-hour time)\n" +
           "\toptions are (options may appear in any order):\n" +
           "\t\t-print Prints a description of the new flight\n" +
-          "\\t\\t-README Prints a README for this project and exits\n" +
+          "\t\t-README Prints a README for this project and exits\n" +
           "\tDate and time should be in the format: mm/dd/yyyy hh:mm";
 
 
@@ -72,7 +74,7 @@ public class Project1 {
         newAirline = args[1];
         newFlightNum = Integer.parseInt(args[2]);
         newSrc = args[3];
-        newDepart = args[4] + args[5];   // date & time are separate
+        newDepart = args[4] + " " + args[5];   // date & time are separate
         newDest = args[6];
         newArrive = args[7] + " " + args[8];   // date & time are separate
       }
@@ -121,16 +123,10 @@ public class Project1 {
                 "positive integers. \nPlease re-run the program to try again, this time with a positive flight number.");
       }
       // src airport not 3 chars
-      if (newSrc.length() != 3) {
+      if (!(newSrc.matches(".{3}"))) {
         throw new IllegalArgumentException("Source airport code entered is not 3 letters long. Source and destination " +
                 "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
                 "time with a source airport code that is exactly three letters long.");
-      }
-      // dest airport not 3 chars
-      if (newDest.length() != 3) {
-        throw new IllegalArgumentException("Destination airport code entered is not 3 letters long. Source and destination " +
-                "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
-                "time with a destination airport code that is exactly three letters long.");
       }
       // src airport contains non-alphabetical characters
       if (!newSrc.matches("[a-zA-Z]+")) {
@@ -138,6 +134,12 @@ public class Project1 {
         throw new IllegalArgumentException("Source airport code entered contains non-alphabetic characters. Source and " +
                 "destination airport codes can only contain 3 alphabetical characters; no numbers or special characters are allowed. " +
                 "\nPlease re-run the program to try again, this time entering a source airport code containing only 3 alphabetical characters.");
+      }
+      // dest airport not 3 chars
+      if (!(newDest.matches(".{3}"))) {
+        throw new IllegalArgumentException("Destination airport code entered is not 3 letters long. Source and destination " +
+                "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
+                "time with a destination airport code that is exactly three letters long.");
       }
       // destination airport contains non-alphabetical characters
       if (!newDest.matches("[a-zA-Z]+")) {
@@ -166,7 +168,7 @@ public class Project1 {
       airline.addFlight(flight);
 
       if (printNewFlight) {   // optional printing of the new flight
-        flight.toString();   // not sure this is correct
+        System.out.println(flight.getString());
       }
 
     } catch (NumberFormatException e) {
