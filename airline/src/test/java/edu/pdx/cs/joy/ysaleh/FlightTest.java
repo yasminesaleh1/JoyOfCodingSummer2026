@@ -19,8 +19,5 @@ public class FlightTest {
     assertThat(flight.getDeparture(), is(nullValue()));
   }
 
-  @Test
-  void x() {
-  }
   
 }

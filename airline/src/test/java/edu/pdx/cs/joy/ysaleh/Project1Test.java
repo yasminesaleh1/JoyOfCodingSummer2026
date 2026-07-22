@@ -28,4 +28,10 @@ class Project1Test {
       assertThat(line, containsString("This is a README file!"));
     }
   }
+
+  @Test
+  void invalidDepartureTimeNotAllowed() {
+
+  }
+
 }

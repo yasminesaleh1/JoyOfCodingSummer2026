@@ -41,7 +41,7 @@ public class Project1 {
       // inspo: https://stackoverflow.com/questions/3868878/java-check-if-command-line-arguments-are-null
       if (args.length == 0) {
         System.err.println("Missing airline information");
-        System.err.println("\n\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
+        System.err.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
                 "command line arguments you include. See below for usage of this program:");
         System.err.println(PROGRAM_USAGE);
         return;
@@ -62,6 +62,11 @@ public class Project1 {
 
 
       if (args[0].equals("-print")) {
+        if (args.length > 9) {   // extraneous arguments detected on command line
+          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
+                  "Please see below for correct usage of this program and do not add any other " +
+                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
+        }
         printNewFlight = true;
         // accounting for shift in arguments below
         newAirline = args[1];
@@ -69,14 +74,20 @@ public class Project1 {
         newSrc = args[3];
         newDepart = args[4] + args[5];   // date & time are separate
         newDest = args[6];
-        newArrive = args[7] + args[8];   // date & time are separate
+        newArrive = args[7] + " " + args[8];   // date & time are separate
       }
       // unknown option entered with a dash at the beginning of the command line
       else if (args[0].matches("-.*")) {
         throw new IllegalArgumentException("Invalid option entered at the beginning of the command line. " +
-                "Please see below for correct usage of this program:\n" + PROGRAM_USAGE);
+                "Please see below for correct usage of this program and do not add any other " +
+                "options/arguments not specified here:\n" + PROGRAM_USAGE);
       }
       else {   // no optional arguments included on the command line
+        if (args.length > 8) {   // extraneous arguments detected on command line
+          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
+                  "Please see below for correct usage of this program and do not add any other " +
+                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
+        }
         newAirline = args[0];
         // below line may throw NumberFormatException if the str contains non-numeric chars
         newFlightNum = Integer.parseInt(args[1]);
