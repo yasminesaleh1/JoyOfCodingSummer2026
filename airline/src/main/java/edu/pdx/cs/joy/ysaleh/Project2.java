@@ -2,12 +2,10 @@ package edu.pdx.cs.joy.ysaleh;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import java.awt.desktop.SystemEventListener;
-
 /**
  * The main class for the Airline Project
  */
-public class Project1 {
+public class Project2 {
   static final String PROGRAM_USAGE = "usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
           "\targs are (in this order):\n" +
           "\t\tairline The name of the airline\n" +

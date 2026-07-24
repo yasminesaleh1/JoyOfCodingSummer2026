@@ -57,6 +57,7 @@ public class Airline extends AbstractAirline<Flight> {
 
   @Override
   public Collection<Flight> getFlights() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+    return airlineFlights;
   }
 }
