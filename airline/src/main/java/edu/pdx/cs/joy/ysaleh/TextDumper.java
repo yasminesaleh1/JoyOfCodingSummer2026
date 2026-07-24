@@ -17,6 +17,8 @@ public class TextDumper implements AirlineDumper<Airline> {
   @Override
   public void dump(Airline airline) {
     try {
+      if (!file.exists()) { file.createNewFile(); }
+
       // got this style of file I/O from the koans in intermediate/AboutFileIO.java
       FileWriter fw = new FileWriter(file);
       PrintWriter pw = new PrintWriter(fw);

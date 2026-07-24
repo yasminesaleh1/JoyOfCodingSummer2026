@@ -18,8 +18,11 @@ public class TextParser implements AirlineParser<Airline> {
   @Override
   public Airline parse() throws ParserException {
     try {
+      if (!file.exists()) { file.createNewFile(); }
+
       // got this style of file I/O from the koans in intermediate/AboutFileIO.java
       FileReader fr = new FileReader(file);
+
       BufferedReader br = new BufferedReader(fr);
 
       Flight newFlight;
@@ -30,9 +33,7 @@ public class TextParser implements AirlineParser<Airline> {
       String arrive;
 
       String airlineName = br.readLine();
-      if (airlineName == null) {
-        throw new ParserException("Missing airline name");
-      }
+      if (airlineName == null) { return null; }   // empty file; nothing to read
       Airline newAirline = new Airline(airlineName);
 
       do {
@@ -50,6 +51,8 @@ public class TextParser implements AirlineParser<Airline> {
         newAirline.addFlight(newFlight);
 
       } while (br.readLine() != null);
+
+      br.close();
 
       return newAirline;
 

@@ -1,6 +1,7 @@
 package edu.pdx.cs.joy.ysaleh;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs.joy.ParserException;
 
 /**
  * The main class for the Airline Project
@@ -33,6 +34,8 @@ public class Project2 {
     String newDest = "";
     String newArrive = "";
     boolean printNewFlight = false;
+    String fileName = null;
+    Airline airline = null;
 
 
     try {
@@ -48,7 +51,7 @@ public class Project2 {
       }
 
       // README option
-      if (args[0].equals("-README") || args[1].equals("-README")) {
+      if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")){
         System.out.println("README\n---------------------------------------------------");
         System.out.println("Name: Yasmine Saleh");
         System.out.println("Course: CS 410: The Joy of Coding with Java and Android");
@@ -60,8 +63,27 @@ public class Project2 {
         return;
       }
 
-
-      if (args[0].equals("-print")) {
+      // -print and -textFile options both present at beginning of command line, in either order
+      if ((args[0].equals("-print") && args[1].equals("-textFile"))
+              || (args[0].equals("-textFile") && args[2].equals("-print"))){
+        if (args.length > 11) {   // extraneous arguments detected on command line
+          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
+                  "Please see below for correct usage of this program and do not add any other " +
+                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
+        }
+        printNewFlight = true;
+        // accounting for shift in arguments below
+        if (args[0].equals("-print")) { fileName = args[2]; }
+        else { fileName = args[1]; }
+        newAirline = args[3];
+        newFlightNum = Integer.parseInt(args[4]);
+        newSrc = args[5];
+        newDepart = args[6] + " " + args[7];   // date & time are separate
+        newDest = args[8];
+        newArrive = args[9] + " " + args[10];   // date & time are separate
+      }
+      // only -print option
+      else if (args[0].equals("-print")) {
         if (args.length > 9) {   // extraneous arguments detected on command line
           throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
                   "Please see below for correct usage of this program and do not add any other " +
@@ -76,8 +98,24 @@ public class Project2 {
         newDest = args[6];
         newArrive = args[7] + " " + args[8];   // date & time are separate
       }
-      // unknown option entered with a dash at the beginning of the command line
-      else if (args[0].matches("-.*")) {
+      // only -textFile option
+      else if (args[0].equals("-textFile")) {
+        if (args.length > 10) {   // extraneous arguments detected on command line
+          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
+                  "Please see below for correct usage of this program and do not add any other " +
+                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
+        }
+        fileName = args[1];
+        // accounting for shift in arguments below
+        newAirline = args[2];
+        newFlightNum = Integer.parseInt(args[3]);
+        newSrc = args[4];
+        newDepart = args[5] + " " + args[6];   // date & time are separate
+        newDest = args[7];
+        newArrive = args[8] + " " + args[9];   // date & time are separate
+      }
+      // other unknown option entered with a dash at the beginning of the command line
+      else if (args[0].matches("-.*") || args[1].matches("-.*")) {
         throw new IllegalArgumentException("Invalid option entered at the beginning of the command line. " +
                 "Please see below for correct usage of this program and do not add any other " +
                 "options/arguments not specified here:\n" + PROGRAM_USAGE);
@@ -160,10 +198,29 @@ public class Project2 {
                 "\nPlease re-run the program to try again, this time entering the arrival date and time in the correct format.");
       }
 
-      // creating the new airline and flight
-      Airline airline = new Airline(newAirline);  // create new airline
-      Flight flight = new Flight(newFlightNum, newSrc, newDepart, newDest, newArrive);  // create new flight
-      airline.addFlight(flight);
+      // create new flight with the arguments from the command line
+      Flight flight = new Flight(newFlightNum, newSrc, newDepart, newDest, newArrive);
+
+      if (fileName != null) {  // reading from the file (if it was included)
+        TextParser tp = new TextParser(fileName);
+        airline = tp.parse();
+        if (airline == null) { airline = new Airline(newAirline); }  // empty file; newly created
+        if (!newAirline.equals(airline.getName())) {
+          throw new IllegalArgumentException("The airline name entered on the command line does not match the airline name " +
+                  "found in the text file.\nPlease re-run the program, making sure you have entered the correct file name, " +
+                  "and that the airline name in the file matches the one entered on the command line.");
+        }
+        // add command line flight
+        airline.addFlight(flight);
+
+        // then dump all into the file using dump()
+        TextDumper td = new TextDumper(fileName);
+        td.dump(airline);
+      }
+      else {  // no file specified on command line
+        airline = new Airline(newAirline);  // create new airline
+        airline.addFlight(flight);
+      }
 
       if (printNewFlight) {   // optional printing of the new flight
         System.out.println(flight.getString());
@@ -188,14 +245,10 @@ public class Project2 {
     catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());  // defined above depending on scenario
       return;
+    } catch (ParserException e) {
+       System.out.println(e.getMessage());  // defined in TextParser.java
     }
 
-
-
-
-    // depart time
-
-    // arrival time
 
   }
 
