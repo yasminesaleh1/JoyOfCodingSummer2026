@@ -5,7 +5,7 @@ import edu.pdx.cs.joy.AirlineDumper;
 import java.io.*;
 
 /**
- * A skeletal implementation of the <code>TextDumper</code> class for Project 2.
+ * TextDumper class which contains the method to write airline information to a file
  */
 public class TextDumper implements AirlineDumper<Airline> {
   private final File file;

@@ -26,6 +26,7 @@ public class TextParser implements AirlineParser<Airline> {
       BufferedReader br = new BufferedReader(fr);
 
       Flight newFlight;
+      String flightNumberStr;
       int flightNumber;
       String src;
       String depart;
@@ -36,9 +37,10 @@ public class TextParser implements AirlineParser<Airline> {
       if (airlineName == null) { return null; }   // empty file; nothing to read
       Airline newAirline = new Airline(airlineName);
 
-      do {
+
+      while ((flightNumberStr = br.readLine()) != null) {
         // read in flight attributes
-        flightNumber = Integer.parseInt(br.readLine());
+        flightNumber = Integer.parseInt(flightNumberStr);
         src = br.readLine();
         depart = br.readLine();
         dest = br.readLine();
@@ -50,7 +52,7 @@ public class TextParser implements AirlineParser<Airline> {
         // add new flight to airline
         newAirline.addFlight(newFlight);
 
-      } while (br.readLine() != null);
+      }
 
       br.close();
 
