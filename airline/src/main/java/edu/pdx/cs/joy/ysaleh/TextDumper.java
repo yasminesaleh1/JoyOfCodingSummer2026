@@ -10,7 +10,7 @@ import java.io.*;
 public class TextDumper implements AirlineDumper<Airline> {
   private final File file;
 
-  public TextDumper(String fileName) {
+  public TextDumper(String fileName) {  // constructor
     file = new File(fileName);
   }
 
@@ -20,6 +20,7 @@ public class TextDumper implements AirlineDumper<Airline> {
       // got this style of file I/O from the koans in intermediate/AboutFileIO.java
       FileWriter fw = new FileWriter(file);
       PrintWriter pw = new PrintWriter(fw);
+
       pw.println(airline.getName());
 
       // print flight info line-by-line, for each flight in the airline

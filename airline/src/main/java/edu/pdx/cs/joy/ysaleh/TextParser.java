@@ -3,33 +3,55 @@ package edu.pdx.cs.joy.ysaleh;
 import edu.pdx.cs.joy.AirlineParser;
 import edu.pdx.cs.joy.ParserException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
 /**
  * A skeletal implementation of the <code>TextParser</code> class for Project 2.
  */
 public class TextParser implements AirlineParser<Airline> {
-  private final Reader reader;
+  private final File file;
 
-  public TextParser(Reader reader) {
-    this.reader = reader;
-  }
+  public TextParser(String fileName) {
+    file = new File(fileName);
+  }  // constructor
 
   @Override
   public Airline parse() throws ParserException {
-    try (
-      BufferedReader br = new BufferedReader(this.reader)
-    ) {
+    try {
+      // got this style of file I/O from the koans in intermediate/AboutFileIO.java
+      FileReader fr = new FileReader(file);
+      BufferedReader br = new BufferedReader(fr);
+
+      Flight newFlight;
+      int flightNumber;
+      String src;
+      String depart;
+      String dest;
+      String arrive;
 
       String airlineName = br.readLine();
-
       if (airlineName == null) {
         throw new ParserException("Missing airline name");
       }
+      Airline newAirline = new Airline(airlineName);
 
-      return new Airline(airlineName);
+      do {
+        // read in flight attributes
+        flightNumber = Integer.parseInt(br.readLine());
+        src = br.readLine();
+        depart = br.readLine();
+        dest = br.readLine();
+        arrive = br.readLine();
+
+        // create new flight with above attributes
+        newFlight = newAirline.createFlight(flightNumber, src, depart, dest, arrive);
+
+        // add new flight to airline
+        newAirline.addFlight(newFlight);
+
+      } while (br.readLine() != null);
+
+      return newAirline;
 
     } catch (IOException e) {
       throw new ParserException("While parsing airline text", e);
