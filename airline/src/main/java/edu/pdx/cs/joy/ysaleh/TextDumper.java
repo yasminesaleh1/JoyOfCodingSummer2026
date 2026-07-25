@@ -10,10 +10,19 @@ import java.io.*;
 public class TextDumper implements AirlineDumper<Airline> {
   private final File file;
 
+  /**
+   * Argument constructor. Initializes fields for a new TextDumper object with specified parameters.
+   * @param fileName the name of the file to parse
+   */
   public TextDumper(String fileName) {  // constructor
     file = new File(fileName);
   }
 
+  /**
+   * dump() method which takes the file name defined in the constructor and creates it (if needed),
+   * and otherwise writes the airline's content into the file.
+   * @param airline The airline whose information will be written to the file
+   */
   @Override
   public void dump(Airline airline) {
     try {

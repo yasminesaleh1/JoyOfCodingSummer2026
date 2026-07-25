@@ -6,15 +6,25 @@ import edu.pdx.cs.joy.ParserException;
 import java.io.*;
 
 /**
- * A skeletal implementation of the <code>TextParser</code> class for Project 2.
+ * TextDumper class which contains the method to read airline information from a file
  */
 public class TextParser implements AirlineParser<Airline> {
   private final File file;
 
+  /**
+   * Argument constructor. Initializes fields for a new TextParser object with specified parameters.
+   * @param fileName the name of the file to parse
+   */
   public TextParser(String fileName) {
     file = new File(fileName);
   }  // constructor
 
+  /**
+   * parse() method which takes the file name defined in the constructor and creates it (if needed),
+   * and otherwise reads the file content into a new airline.
+   * @return the newly-read Airline object
+   * @throws ParserException
+   */
   @Override
   public Airline parse() throws ParserException {
     try {

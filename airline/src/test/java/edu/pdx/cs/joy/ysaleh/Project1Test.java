@@ -20,7 +20,7 @@ class Project1Test {
   @Test
   void readmeCanBeReadAsResource() throws IOException {
     try (
-      InputStream readme = Project1.class.getResourceAsStream("README.txt")
+      InputStream readme = Project2.class.getResourceAsStream("README.txt")
     ) {
       assertThat(readme, not(nullValue()));
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
@@ -31,7 +31,8 @@ class Project1Test {
 
   @Test
   void invalidDepartureTimeNotAllowed() {
-
+    //Flight flight = new Flight(943, "PDX", "03/03/20106 16:20", "JFK", "03/04/2010 06:20");
+    //assert();
   }
 
 }
