@@ -6,18 +6,19 @@ import edu.pdx.cs.joy.ParserException;
 /**
  * The main class for the Airline Project
  */
-public class Project2 {
+public class Project3 {
   static final String PROGRAM_USAGE = "usage: java -jar target/airline-1.0.0.jar [options] <args>\n" +
           "\targs are (in this order):\n" +
-          "\t\tairline The name of the airline\n" +
-          "\t\tflightNumber The flight number\n" +
-          "\t\tsrc Three-letter code of departure airport\n" +
-          "\t\tdepart Departure date and time (24-hour time)\n" +
-          "\t\tdest Three-letter code of arrival airport\n" +
-          "\t\tarrive Arrival date and time (24-hour time)\n" +
+          "\t\tairline             The name of the airline\n" +
+          "\t\tflightNumber        The flight number\n" +
+          "\t\tsrc                 Three-letter code of departure airport\n" +
+          "\t\tdepart              Departure date and time (24-hour time)\n" +
+          "\t\tdest                Three-letter code of arrival airport\n" +
+          "\t\tarrive              Arrival date and time (24-hour time)\n" +
           "\toptions are (options may appear in any order):\n" +
-          "\t\t-print Prints a description of the new flight\n" +
-          "\t\t-README Prints a README for this project and exits\n" +
+          "\t\t-textFile file      Where to read/write the airline info\n" +
+          "\t\t-print              Prints a description of the new flight\n" +
+          "\t\t-README             Prints a README for this project and exits\n" +
           "\tDate and time should be in the format: mm/dd/yyyy hh:mm";
 
 

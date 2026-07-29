@@ -4,6 +4,7 @@ import edu.pdx.cs.joy.AbstractAirline;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 
 /**
  * Airline class to represent Airline objects. Contains a name for the airline and an Array List of flights.
@@ -46,13 +47,15 @@ public class Airline extends AbstractAirline<Flight> {
 
 
   /**
-   * addFlight function. Adds a flight to the Airline object's airlineFlights ArrayList.
+   * addFlight function. Adds a flight to the Airline object's airlineFlights ArrayList, then sort all the flights in the array list.
    * Main calls this with the variable returned from createFlight().
    * @param flight the flight to-be-added to the Airline object's ArrayList
    */
   @Override
   public void addFlight(Flight flight) {
     airlineFlights.add(flight);
+    // sorts the list according to what I defined in the overloaded compareTo() method
+    airlineFlights.sort(null);
   }
 
   @Override
