@@ -1,6 +1,7 @@
 package edu.pdx.cs.joy.ysaleh;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs.joy.AirportNames;
 import edu.pdx.cs.joy.ParserException;
 
 /**
@@ -12,10 +13,12 @@ public class Project3 {
           "\t\tairline             The name of the airline\n" +
           "\t\tflightNumber        The flight number\n" +
           "\t\tsrc                 Three-letter code of departure airport\n" +
-          "\t\tdepart              Departure date and time (24-hour time)\n" +
+          "\t\tdepart              Departure date and time (AM/PM)\n" +
           "\t\tdest                Three-letter code of arrival airport\n" +
-          "\t\tarrive              Arrival date and time (24-hour time)\n" +
+          "\t\tarrive              Arrival date and time (AM/PM)\n" +
           "\toptions are (options may appear in any order):\n" +
+          "\t\t-pretty file        Pretty print the airline’s flights to\n" +
+          "                        a text file or standard out (file -)" +
           "\t\t-textFile file      Where to read/write the airline info\n" +
           "\t\t-print              Prints a description of the new flight\n" +
           "\t\t-README             Prints a README for this project and exits\n" +
@@ -36,7 +39,9 @@ public class Project3 {
     String newArrive = "";
     boolean printNewFlight = false;
     String fileName = null;
+    String prettyFileName = null;
     Airline airline = null;
+    int i = 0; // for switch case
 
 
     try {
@@ -52,18 +57,67 @@ public class Project3 {
       }
 
       // README option
-      if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")){
-        System.out.println("README\n---------------------------------------------------");
-        System.out.println("Name: Yasmine Saleh");
-        System.out.println("Course: CS 410: The Joy of Coding with Java and Android");
-        System.out.println("Instructor: David Whitlock");
-        System.out.println("Assignment: Project 1: Designing an Airline Application");
-        System.out.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
-                "command line arguments you include. See below for usage of this program:");
-        System.out.println(PROGRAM_USAGE);
-        return;
+      for (String arg : args) {
+        if (arg.equals("-README")) {
+          System.out.println("README\n---------------------------------------------------");
+          System.out.println("Name: Yasmine Saleh");
+          System.out.println("Course: CS 410: The Joy of Coding with Java and Android");
+          System.out.println("Instructor: David Whitlock");
+          System.out.println("Assignment: Project 1: Designing an Airline Application");
+          System.out.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
+                  "command line arguments you include. See below for usage of this program:");
+          System.out.println(PROGRAM_USAGE);
+          return;
+        }
       }
 
+      // idea taken from Claude
+      while (i < args.length && args[i].startsWith("-")) {
+        switch(args[i]) {
+          case "-pretty":
+            prettyFileName = args[++i];
+            break;
+          case "-textFile":
+            fileName = args[++i];
+            break;
+          case "-print":
+            printNewFlight = true;
+            break;
+          case "-README":
+            System.out.println("README\n---------------------------------------------------");
+            System.out.println("Name: Yasmine Saleh");
+            System.out.println("Course: CS 410: The Joy of Coding with Java and Android");
+            System.out.println("Instructor: David Whitlock");
+            System.out.println("Assignment: Project 1: Designing an Airline Application");
+            System.out.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
+                    "command line arguments you include. See below for usage of this program:");
+            System.out.println(PROGRAM_USAGE);
+            return;
+          default:
+            throw new IllegalArgumentException("Invalid option entered at the beginning of the command line. " +
+                    "Please see below for correct usage of this program and do not add any other " +
+                    "options/arguments not specified here:\n" + PROGRAM_USAGE);
+        }
+        ++i;
+      }
+
+      if (args.length > i + 10) {  // extraneous arguments detected on command line
+        throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
+                "Please see below for correct usage of this program and do not add any other " +
+                "options/arguments not specified here:\n" + PROGRAM_USAGE);
+      }
+
+      newAirline = args[i];
+      // below line may throw NumberFormatException if the str contains non-numeric chars
+      newFlightNum = Integer.parseInt(args[++i]);
+      newSrc = args[++i];
+      newDepart = args[++i] + " " + args[++i] + " " + args[++i];   // date & time and AM/PM are separate
+      newDest = args[++i];
+      newArrive = args[++i] + " " + args[++i] + " " + args[++i];   // date & time and AM/PM are separate
+
+
+
+      /* old inefficient command line parsing
       // -print and -textFile options both present at beginning of command line, in either order
       if ((args[0].equals("-print") && args[1].equals("-textFile"))
               || (args[0].equals("-textFile") && args[2].equals("-print"))){
@@ -134,7 +188,11 @@ public class Project3 {
         newDepart = args[3] + " " + args[4];   // date & time are separate
         newDest = args[5];
         newArrive = args[6] + " " + args[7];   // date & time are separate
-      }
+      } */
+
+
+
+
 
       // error handling below. I got some inspiration (mainly from the use of getMessage()) from the following
       // code snippet from Google AI overview after googling "how to print thriwn exception message in java":
@@ -172,6 +230,12 @@ public class Project3 {
                 "destination airport codes can only contain 3 alphabetical characters; no numbers or special characters are allowed. " +
                 "\nPlease re-run the program to try again, this time entering a source airport code containing only 3 alphabetical characters.");
       }
+      // src airport doesn't correspond to a known airport
+      if (AirportNames.getName(newSrc) == null) {
+        throw new IllegalArgumentException("Source airport code entered doesn't correspond to a known airport. " +
+                "The source and destination airport codes must correspond to real, known airports. \nPlease re-run " +
+                "the program to try again, this time entering a source airport code of a real airport.");
+      }
       // dest airport not 3 chars
       if (!(newDest.matches(".{3}"))) {
         throw new IllegalArgumentException("Destination airport code entered is not 3 letters long. Source and destination " +
@@ -184,16 +248,22 @@ public class Project3 {
                 "destination airport codes can only contain 3 alphabetical characters; no numbers or special characters are allowed. " +
                 "\nPlease re-run the program to try again, this time entering a source airport code containing only 3 alphabetical characters.");
       }
+      // dest airport doesn't correspond to a known airport
+      if (AirportNames.getName(newDest) == null) {
+        throw new IllegalArgumentException("Destination airport code entered doesn't correspond to a known airport. " +
+                "The source and destination airport codes must correspond to real, known airports. \nPlease re-run " +
+                "the program to try again, this time entering a destination airport code of a real airport.");
+      }
       // invalid departure date/time
       // The following dates and times are valid: 7/15/2026 10:39 and 06/2/2026 1:03
       // That is, the month and the day can be expressed as either 1 or 2 digits. The year should always be four digits.
-      if (!newDepart.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
+      if (!newDepart.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2} (AM|PM)")) {
         throw new IllegalArgumentException("The flight departure time entered is not valid. The date and time for flight departure/arrival must be entered in the " +
                 "following format as two separate arguments on the command line, with the time in 24-hour format: mm/dd/yyyy hh:mm " +
                 "\nPlease re-run the program to try again, this time entering the departure date and time in the correct format.");
       }
       // invalid arrival date/time
-      if (!newArrive.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2}")) {
+      if (!newArrive.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2} (AM|PM)")) {
         throw new IllegalArgumentException("The flight arrival time entered is not valid. The date and time for flight departure/arrival must be entered in the " +
                 "following format as two separate arguments on the command line, with the time in 24-hour format: mm/dd/yyyy hh:mm " +
                 "\nPlease re-run the program to try again, this time entering the arrival date and time in the correct format.");
@@ -225,6 +295,11 @@ public class Project3 {
 
       if (printNewFlight) {   // optional printing of the new flight
         System.out.println(flight.getString());
+      }
+
+      if (prettyFileName != null) {
+        PrettyPrinter pretty = new PrettyPrinter(prettyFileName);
+        pretty.dump(airline);
       }
 
     } catch (NumberFormatException e) {

@@ -114,7 +114,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * @return the Flight object's date and time of arrival
    */
   @Override
-  public String getArrivalString() { int shortFormat = DateFormat.SHORT;
+  public String getArrivalString() {
+    int shortFormat = DateFormat.SHORT;
     DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(shortFormat, shortFormat);
     return dateTimeFormat.format(arrivalTime); }
 
@@ -129,5 +130,20 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   @Override
   public LocalDateTime getDeparture() { return departureTime; }
+
+  /**
+   * A method to calculate the flight duration in minutes. The function works by
+   * converting the departure and times to seconds since the epoch then doing some
+   * math to figure out the minutes between them.
+   * Inspiration source: https://medium.com/@AlexanderObregon/javas-duration-between-method-explained-a15e2cc54c8b
+   * @return the flight duration in minutes
+   */
+  public long calculateDuration() {
+    long flightDuration;
+    ZoneOffset zone = ZoneOffset.of("+00:00");
+    flightDuration = arrivalTime.toEpochSecond(zone) - departureTime.toEpochSecond(zone);
+    flightDuration = (flightDuration / 60) / 60;
+    return flightDuration;
+  }
 
 }

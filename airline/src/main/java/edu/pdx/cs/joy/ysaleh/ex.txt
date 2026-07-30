@@ -1,0 +1,6 @@
+Flight #493: MIA —> PDX
+	Source Airport:      Miami, Florida
+	Destination Airport: Portland, Oregon
+	Departure Time:      Wednesday, July 26th at 10:34 PM
+	Arrival Time:        Thursday, July 27th at 2:37 AM
+	Flight Duration:     425 minutes
