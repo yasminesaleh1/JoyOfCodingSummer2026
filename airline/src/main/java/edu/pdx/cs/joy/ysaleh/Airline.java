@@ -64,6 +64,10 @@ public class Airline extends AbstractAirline<Flight> {
 
   }
 
+  /**
+   * A getter function for the airline flights array list.
+   * @return the array list of flights for this airline
+   */
   @Override
   public Collection<Flight> getFlights() { return airlineFlights; }
 

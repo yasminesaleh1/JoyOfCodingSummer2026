@@ -125,9 +125,17 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   public String getString() { return super.toString(); }
 
+  /**
+   * getter function for the LocalDateTime arrival time
+   * @return the flight's arrival time
+   */
   @Override
   public LocalDateTime getArrival() { return arrivalTime; }
 
+  /**
+   * getter function for the LocalDateTime departure time
+   * @return the flight's departure time
+   */
   @Override
   public LocalDateTime getDeparture() { return departureTime; }
 

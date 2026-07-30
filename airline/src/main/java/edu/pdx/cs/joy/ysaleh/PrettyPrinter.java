@@ -21,10 +21,17 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
      * @param fileName the name of the file to parse
      */
     public PrettyPrinter(String fileName) {  // constructor
-        file = new File(fileName);
+        if (fileName.equals("-")) { file = null; }  // print to stdout
+        else { file = new File(fileName); }
     }
 
 
+    /**
+     * pretty-printing dump method; writes all the flights in an airline to a file or to STDOUT, in a nicely-formatted manner.
+     * @param airline
+     *        The airline being written to a destination
+     *
+     */
     public void dump(Airline airline) {
         String sourceName;
         String destinationName;
@@ -33,33 +40,58 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(longFormat, longFormat);
 
         try {
-            if (!file.exists()) { file.createNewFile(); }
+            if (file == null) {  //stdout
+                System.out.println("Airline: " + airline.getName() + "\n");
 
-            // got this style of file I/O from the koans in intermediate/AboutFileIO.java
-            FileWriter fw = new FileWriter(file);
-            PrintWriter pw = new PrintWriter(fw);
+                // print flight info line-by-line, for each flight in the airline
+                for (Flight airlineFlight : airline.getFlights()) {
+                    sourceName = AirportNames.getName((airlineFlight.getSource()).toUpperCase());
+                    destinationName = AirportNames.getName((airlineFlight.getDestination()).toUpperCase());
+                    flightDuration = airlineFlight.calculateDuration();
 
-            pw.println("Airline: " + airline.getName() + "\n");
+                    // Flight #123: PDX --> LAX
+                    System.out.println("Flight #" + airlineFlight.getNumber() + ": "
+                            + airlineFlight.getSource() + " --> " + airlineFlight.getDestination());
 
-
-            // print flight info line-by-line, for each flight in the airline
-            for (Flight airlineFlight : airline.getFlights()) {
-                sourceName = AirportNames.getName((airlineFlight.getSource()).toUpperCase());
-                destinationName = AirportNames.getName((airlineFlight.getDestination()).toUpperCase());
-                flightDuration = airlineFlight.calculateDuration();
-
-                // Flight #123: PDX --> LAX
-                pw.println("Flight #" + airlineFlight.getNumber() + ": "
-                        + airlineFlight.getSource() + " --> " + airlineFlight.getDestination());
-
-                pw.println("\tSource Airport:      " + sourceName);
-                pw.println("\tDestination Airport: " + destinationName);
-                pw.println("\tDeparture Time:      " + dateTimeFormat.format(airlineFlight.getDeparture()));
-                pw.println("\tArrival Time:        " + dateTimeFormat.format(airlineFlight.getArrival()));
-                pw.println("\tFlight Duration:     " + flightDuration);
+                    System.out.println("\tSource Airport:      " + sourceName);
+                    System.out.println("\tDestination Airport: " + destinationName);
+                    System.out.println("\tDeparture Time:      " + dateTimeFormat.format(airlineFlight.getDeparture()));
+                    System.out.println("\tArrival Time:        " + dateTimeFormat.format(airlineFlight.getArrival()));
+                    System.out.println("\tFlight Duration:     " + flightDuration);
+                }
             }
-            pw.flush();
-            pw.close();
+
+            else {
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+
+                // got this style of file I/O from the koans in intermediate/AboutFileIO.java
+                FileWriter fw = new FileWriter(file);
+                PrintWriter pw = new PrintWriter(fw);
+
+                pw.println("Airline: " + airline.getName() + "\n");
+
+
+                // print flight info line-by-line, for each flight in the airline
+                for (Flight airlineFlight : airline.getFlights()) {
+                    sourceName = AirportNames.getName((airlineFlight.getSource()).toUpperCase());
+                    destinationName = AirportNames.getName((airlineFlight.getDestination()).toUpperCase());
+                    flightDuration = airlineFlight.calculateDuration();
+
+                    // Flight #123: PDX --> LAX
+                    pw.println("Flight #" + airlineFlight.getNumber() + ": "
+                            + airlineFlight.getSource() + " --> " + airlineFlight.getDestination());
+
+                    pw.println("\tSource Airport:      " + sourceName);
+                    pw.println("\tDestination Airport: " + destinationName);
+                    pw.println("\tDeparture Time:      " + dateTimeFormat.format(airlineFlight.getDeparture()));
+                    pw.println("\tArrival Time:        " + dateTimeFormat.format(airlineFlight.getArrival()));
+                    pw.println("\tFlight Duration:     " + flightDuration);
+                }
+                pw.flush();
+                pw.close();
+            }
 
         }
         catch (IOException e) {
