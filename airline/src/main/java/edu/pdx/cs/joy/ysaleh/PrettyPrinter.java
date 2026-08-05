@@ -36,12 +36,13 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         String sourceName;
         String destinationName;
         long flightDuration;
-        int longFormat = DateFormat.LONG;  // for printing the dates
-        DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(longFormat, longFormat);
+        //int longFormat = DateFormat.LONG;  // for printing the dates
+        //DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(longFormat, longFormat);
 
         try {
             if (file == null) {  //stdout
-                System.out.println("Airline: " + airline.getName() + "\n");
+                System.out.println("\nAirline: " + airline.getName());
+                System.out.println("————————————————————————");
 
                 // print flight info line-by-line, for each flight in the airline
                 for (Flight airlineFlight : airline.getFlights()) {
@@ -50,14 +51,14 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
                     flightDuration = airlineFlight.calculateDuration();
 
                     // Flight #123: PDX --> LAX
-                    System.out.println("Flight #" + airlineFlight.getNumber() + ": "
+                    System.out.println("\nFlight #" + airlineFlight.getNumber() + ": "
                             + airlineFlight.getSource() + " --> " + airlineFlight.getDestination());
 
                     System.out.println("\tSource Airport:      " + sourceName);
                     System.out.println("\tDestination Airport: " + destinationName);
-                    System.out.println("\tDeparture Time:      " + dateTimeFormat.format(airlineFlight.getDeparture()));
-                    System.out.println("\tArrival Time:        " + dateTimeFormat.format(airlineFlight.getArrival()));
-                    System.out.println("\tFlight Duration:     " + flightDuration);
+                    System.out.println("\tDeparture Time:      " + airlineFlight.getDepartureString());
+                    System.out.println("\tArrival Time:        " + airlineFlight.getArrivalString());
+                    System.out.println("\tFlight Duration:     " + flightDuration + " minutes");
                 }
             }
 
@@ -70,7 +71,8 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
                 FileWriter fw = new FileWriter(file);
                 PrintWriter pw = new PrintWriter(fw);
 
-                pw.println("Airline: " + airline.getName() + "\n");
+                pw.println("\nAirline: " + airline.getName());
+                pw.println("————————————————————————");
 
 
                 // print flight info line-by-line, for each flight in the airline
@@ -80,14 +82,14 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
                     flightDuration = airlineFlight.calculateDuration();
 
                     // Flight #123: PDX --> LAX
-                    pw.println("Flight #" + airlineFlight.getNumber() + ": "
+                    pw.println("\nFlight #" + airlineFlight.getNumber() + ": "
                             + airlineFlight.getSource() + " --> " + airlineFlight.getDestination());
 
                     pw.println("\tSource Airport:      " + sourceName);
                     pw.println("\tDestination Airport: " + destinationName);
-                    pw.println("\tDeparture Time:      " + dateTimeFormat.format(airlineFlight.getDeparture()));
-                    pw.println("\tArrival Time:        " + dateTimeFormat.format(airlineFlight.getArrival()));
-                    pw.println("\tFlight Duration:     " + flightDuration);
+                    pw.println("\tDeparture Time:      " + airlineFlight.getDepartureString());
+                    pw.println("\tArrival Time:        " + airlineFlight.getArrivalString());
+                    pw.println("\tFlight Duration:     " + flightDuration + " minutes");
                 }
                 pw.flush();
                 pw.close();

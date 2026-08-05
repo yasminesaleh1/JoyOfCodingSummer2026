@@ -63,7 +63,7 @@ public class Project3 {
           System.out.println("Name: Yasmine Saleh");
           System.out.println("Course: CS 410: The Joy of Coding with Java and Android");
           System.out.println("Instructor: David Whitlock");
-          System.out.println("Assignment: Project 1: Designing an Airline Application");
+          System.out.println("Assignment: Project 3: Pretty-Printing an Airline");
           System.out.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
                   "command line arguments you include. See below for usage of this program:");
           System.out.println(PROGRAM_USAGE);

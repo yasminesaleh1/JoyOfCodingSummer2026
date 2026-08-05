@@ -38,9 +38,9 @@ public class TextDumper implements AirlineDumper<Airline> {
       for (Flight airlineFlight : airline.getFlights()) {
         pw.println(airlineFlight.getNumber());
         pw.println(airlineFlight.getSource());
-        pw.println(airlineFlight.getDepartureString());
+        pw.println(airlineFlight.getOriginalDepartureTime());
         pw.println(airlineFlight.getDestination());
-        pw.println(airlineFlight.getArrivalString());
+        pw.println(airlineFlight.getOriginalArrivalTime());
       }
       pw.flush();
       pw.close();

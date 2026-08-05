@@ -18,6 +18,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   private LocalDateTime departureTime;
   private LocalDateTime arrivalTime;
   private int id;
+  private String originalDepartureTime;
+  private String originalArrivalTime;
 
 
   /**
@@ -55,6 +57,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   public Flight(int flightNum, String src, String depart, String dest, String arrive) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy h:m a"); //  eg: 01/02/2026 9:16 PM
+    originalDepartureTime = depart;
+    originalArrivalTime = arrive;
     departureTime = LocalDateTime.parse(depart, formatter);
     arrivalTime = LocalDateTime.parse(arrive, formatter);
     id = flightNum;
@@ -93,14 +97,17 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   public String getSource() { return source; }
 
   /**
-   * Getter function for Flight departure date and time
+   * Getter function for Flight departure date and time.
+   * Reference: https://www.geeksforgeeks.org/java/localdatetime-format-method-in-java/
    * @return the Flight object's date and time of departure
    */
   @Override
   public String getDepartureString() {
-    int shortFormat = DateFormat.SHORT;
-    DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(shortFormat, shortFormat);
-    return dateTimeFormat.format(departureTime); }
+    //int shortFormat = DateFormat.SHORT;
+    //DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(shortFormat, shortFormat);
+    //return dateTimeFormat.format(departureTime);
+    return (DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)).format(departureTime);
+  }
 
   /**
    * Getter function for Flight destination airport code
@@ -111,13 +118,16 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   /**
    * Getter function for Flight arrival date and time
+   * Reference: https://www.geeksforgeeks.org/java/localdatetime-format-method-in-java/
    * @return the Flight object's date and time of arrival
    */
   @Override
   public String getArrivalString() {
-    int shortFormat = DateFormat.SHORT;
-    DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(shortFormat, shortFormat);
-    return dateTimeFormat.format(arrivalTime); }
+    //int shortFormat = DateFormat.SHORT;
+    //DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(shortFormat, shortFormat);
+    //return dateTimeFormat.format(arrivalTime);
+    return (DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)).format(arrivalTime);
+  }
 
   /**
    * getString() method which calls super's already-implemented toString() method
@@ -140,6 +150,22 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   public LocalDateTime getDeparture() { return departureTime; }
 
   /**
+   * Getter function for the departure time string originally entered in by the user
+   * @return the original departure time string
+   */
+  public String getOriginalDepartureTime() {
+    return originalDepartureTime;
+  }
+
+  /**
+   * Getter function for the arrival time string originally entered in by the user
+   * @return the original arrival time string
+   */
+  public String getOriginalArrivalTime() {
+    return originalArrivalTime;
+  }
+
+  /**
    * A method to calculate the flight duration in minutes. The function works by
    * converting the departure and times to seconds since the epoch then doing some
    * math to figure out the minutes between them.
@@ -150,7 +176,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     long flightDuration;
     ZoneOffset zone = ZoneOffset.of("+00:00");
     flightDuration = arrivalTime.toEpochSecond(zone) - departureTime.toEpochSecond(zone);
-    flightDuration = (flightDuration / 60) / 60;
+    flightDuration = (flightDuration / 60);
     return flightDuration;
   }
 
