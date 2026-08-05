@@ -103,9 +103,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   @Override
   public String getDepartureString() {
-    //int shortFormat = DateFormat.SHORT;
-    //DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(shortFormat, shortFormat);
-    //return dateTimeFormat.format(departureTime);
     return (DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)).format(departureTime);
   }
 
@@ -123,9 +120,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   @Override
   public String getArrivalString() {
-    //int shortFormat = DateFormat.SHORT;
-    //DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(shortFormat, shortFormat);
-    //return dateTimeFormat.format(arrivalTime);
     return (DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)).format(arrivalTime);
   }
 
@@ -151,6 +145,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   /**
    * Getter function for the departure time string originally entered in by the user
+   * Used in the TextDumper class.
    * @return the original departure time string
    */
   public String getOriginalDepartureTime() {
@@ -158,7 +153,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   /**
-   * Getter function for the arrival time string originally entered in by the user
+   * Getter function for the arrival time string originally entered in by the user.
+   * Used in the TextDumper class.
    * @return the original arrival time string
    */
   public String getOriginalArrivalTime() {

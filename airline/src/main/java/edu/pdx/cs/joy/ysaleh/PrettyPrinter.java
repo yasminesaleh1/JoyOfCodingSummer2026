@@ -11,7 +11,7 @@ import java.text.DateFormat;
 
 /**
  * PrettyPrinter class which prints an airline's flights in a nicely-formatter manner, to either a file or STDOUT.
- * Resembles my TextDumper class very closely; much of the code in this class will be borrowed from there.
+ * Resembles my TextDumper class very closely; much of the code in this class is borrowed from there.
  */
 public class PrettyPrinter implements AirlineDumper<Airline> {
     private final File file;

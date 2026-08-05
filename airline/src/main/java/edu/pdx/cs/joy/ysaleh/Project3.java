@@ -57,7 +57,7 @@ public class Project3 {
       }
 
       // README option
-      for (String arg : args) {
+      /*for (String arg : args) {
         if (arg.equals("-README")) {
           System.out.println("README\n---------------------------------------------------");
           System.out.println("Name: Yasmine Saleh");
@@ -69,7 +69,7 @@ public class Project3 {
           System.out.println(PROGRAM_USAGE);
           return;
         }
-      }
+      }*/
 
       // idea taken from Claude
       while (i < args.length && args[i].startsWith("-")) {
@@ -117,83 +117,6 @@ public class Project3 {
 
 
 
-      /* old inefficient command line parsing
-      // -print and -textFile options both present at beginning of command line, in either order
-      if ((args[0].equals("-print") && args[1].equals("-textFile"))
-              || (args[0].equals("-textFile") && args[2].equals("-print"))){
-        if (args.length > 11) {   // extraneous arguments detected on command line
-          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
-                  "Please see below for correct usage of this program and do not add any other " +
-                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
-        }
-        printNewFlight = true;
-        // accounting for shift in arguments below
-        if (args[0].equals("-print")) { fileName = args[2]; }
-        else { fileName = args[1]; }
-        newAirline = args[3];
-        newFlightNum = Integer.parseInt(args[4]);
-        newSrc = args[5];
-        newDepart = args[6] + " " + args[7];   // date & time are separate
-        newDest = args[8];
-        newArrive = args[9] + " " + args[10];   // date & time are separate
-      }
-      // only -print option
-      else if (args[0].equals("-print")) {
-        if (args.length > 9) {   // extraneous arguments detected on command line
-          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
-                  "Please see below for correct usage of this program and do not add any other " +
-                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
-        }
-        printNewFlight = true;
-        // accounting for shift in arguments below
-        newAirline = args[1];
-        newFlightNum = Integer.parseInt(args[2]);
-        newSrc = args[3];
-        newDepart = args[4] + " " + args[5];   // date & time are separate
-        newDest = args[6];
-        newArrive = args[7] + " " + args[8];   // date & time are separate
-      }
-      // only -textFile option
-      else if (args[0].equals("-textFile")) {
-        if (args.length > 10) {   // extraneous arguments detected on command line
-          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
-                  "Please see below for correct usage of this program and do not add any other " +
-                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
-        }
-        fileName = args[1];
-        // accounting for shift in arguments below
-        newAirline = args[2];
-        newFlightNum = Integer.parseInt(args[3]);
-        newSrc = args[4];
-        newDepart = args[5] + " " + args[6];   // date & time are separate
-        newDest = args[7];
-        newArrive = args[8] + " " + args[9];   // date & time are separate
-      }
-      // other unknown option entered with a dash at the beginning of the command line
-      else if (args[0].matches("-.*") || args[1].matches("-.*")) {
-        throw new IllegalArgumentException("Invalid option entered at the beginning of the command line. " +
-                "Please see below for correct usage of this program and do not add any other " +
-                "options/arguments not specified here:\n" + PROGRAM_USAGE);
-      }
-      else {   // no optional arguments included on the command line
-        if (args.length > 8) {   // extraneous arguments detected on command line
-          throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
-                  "Please see below for correct usage of this program and do not add any other " +
-                  "options/arguments not specified here:\n" + PROGRAM_USAGE);
-        }
-        newAirline = args[0];
-        // below line may throw NumberFormatException if the str contains non-numeric chars
-        newFlightNum = Integer.parseInt(args[1]);
-        newSrc = args[2];
-        newDepart = args[3] + " " + args[4];   // date & time are separate
-        newDest = args[5];
-        newArrive = args[6] + " " + args[7];   // date & time are separate
-      } */
-
-
-
-
-
       // error handling below. I got some inspiration (mainly from the use of getMessage()) from the following
       // code snippet from Google AI overview after googling "how to print thriwn exception message in java":
       /*
@@ -206,12 +129,6 @@ public class Project3 {
       */
 
 
-      // airline name is too short
-      if (newAirline.length() <= 2) {
-        throw new IllegalArgumentException("Airline name entered is too short. " +
-                "The airline name cannot be shorter than 3 character. \nPlease re-run " +
-                "the program to try again, this time with an airline name that is at least 3 characters long.");
-      }
       // negative flight number
       if (newFlightNum < 0) {
         throw new IllegalArgumentException("A negative flight number was detected. Flight numbers must be " +
@@ -255,8 +172,6 @@ public class Project3 {
                 "the program to try again, this time entering a destination airport code of a real airport.");
       }
       // invalid departure date/time
-      // The following dates and times are valid: 7/15/2026 10:39 and 06/2/2026 1:03
-      // That is, the month and the day can be expressed as either 1 or 2 digits. The year should always be four digits.
       if (!newDepart.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2} (AM|PM)")) {
         throw new IllegalArgumentException("The flight departure time entered is not valid. The date and time for flight departure/arrival must be entered in the " +
                 "following format as two separate arguments on the command line, with the time in 24-hour format: mm/dd/yyyy hh:mm " +

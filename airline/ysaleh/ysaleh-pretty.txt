@@ -1,0 +1,38 @@
+
+Airline: Project3
+————————————————————————
+
+Flight #100: CVG --> DBQ
+	Source Airport:      Cincinnati, OH
+	Destination Airport: Dubuque, IA
+	Departure Time:      3/2/26, 12:57 PM
+	Arrival Time:        3/2/26, 4:00 PM
+	Flight Duration:     183 minutes
+
+Flight #200: CWA --> DRO
+	Source Airport:      Wausau/Stevens Point, WI
+	Destination Airport: Durango, CO
+	Departure Time:      1/3/26, 12:14 PM
+	Arrival Time:        1/13/26, 2:45 PM
+	Flight Duration:     14551 minutes
+
+Flight #400: EVV --> LFT
+	Source Airport:      Evansville, IN
+	Destination Airport: Lafayette, LA
+	Departure Time:      3/4/26, 12:36 PM
+	Arrival Time:        3/5/26, 8:19 PM
+	Flight Duration:     1903 minutes
+
+Flight #1000: HRL --> FAT
+	Source Airport:      Harlingen, TX
+	Destination Airport: Fresno, CA
+	Departure Time:      1/9/26, 9:00 AM
+	Arrival Time:        1/9/26, 6:28 PM
+	Flight Duration:     568 minutes
+
+Flight #1200: LNK --> MFE
+	Source Airport:      Lincoln, NE
+	Destination Airport: Mcallen, TX
+	Departure Time:      1/10/26, 10:00 AM
+	Arrival Time:        1/10/26, 12:16 PM
+	Flight Duration:     136 minutes

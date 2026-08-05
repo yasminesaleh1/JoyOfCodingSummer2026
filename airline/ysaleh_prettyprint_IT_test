@@ -1,0 +1,10 @@
+
+Airline: testAirline
+————————————————————————
+
+Flight #100: PDX --> LAX
+	Source Airport:      Portland, OR
+	Destination Airport: Los Angeles, CA
+	Departure Time:      1/10/26, 12:16 PM
+	Arrival Time:        1/10/26, 2:16 PM
+	Flight Duration:     120 minutes
