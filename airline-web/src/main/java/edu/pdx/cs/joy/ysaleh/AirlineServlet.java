@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +20,15 @@ import java.util.Map;
 public class AirlineServlet extends HttpServlet {
   static final String WORD_PARAMETER = "word";
   static final String DEFINITION_PARAMETER = "definition";
+  static final String AIRLINE_PARAMETER = "airline";
+  static final String FLIGHTNUMBER_PARAMETER = "flightNumber";
+  static final String SRC_PARAMETER = "src";
+  static final String DEPART_PARAMETER = "depart";
+  static final String DEST_PARAMETER = "dest";
+  static final String ARRIVE_PARAMETER = "arrive";
 
-  private final Map<String, String> dictionary = new HashMap<>();
+  //private final Map<String, String> dictionary = new HashMap<>();
+  private final ArrayList<Airline> airlines = new ArrayList<>();
 
   /**
    * Handles an HTTP GET request from a client by writing the definition of the
@@ -29,6 +37,29 @@ public class AirlineServlet extends HttpServlet {
    * are written to the HTTP response.
    */
   @Override
+  protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
+  {
+      response.setContentType( "text/plain" );
+
+      String airline = getParameter( AIRLINE_PARAMETER, request );
+      if (airline != null) {
+          log("GET " + airline);
+          writeFlights(airline, response);
+
+      } else {
+          log("GET all airline entries");
+          writeAllAirlineEntries(response);
+      }
+  }
+
+
+  /**
+   * Handles an HTTP GET request from a client by writing the definition of the
+   * word specified in the "word" HTTP parameter to the HTTP response.  If the
+   * "word" parameter is not specified, all of the entries in the dictionary
+   * are written to the HTTP response.
+   */
+  /*@Override
   protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
   {
       response.setContentType( "text/plain" );
@@ -44,6 +75,10 @@ public class AirlineServlet extends HttpServlet {
       }
   }
 
+   */
+
+
+
   /**
    * Handles an HTTP POST request by storing the dictionary entry for the
    * "word" and "definition" request parameters.  It writes the dictionary
@@ -54,28 +89,97 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String word = getParameter(WORD_PARAMETER, request );
-      if (word == null) {
-          missingRequiredParameter(response, WORD_PARAMETER);
+      String airline = getParameter(AIRLINE_PARAMETER, request );
+      if (airline == null) {
+          missingRequiredParameter(response, AIRLINE_PARAMETER);
           return;
       }
 
-      String definition = getParameter(DEFINITION_PARAMETER, request );
-      if ( definition == null) {
-          missingRequiredParameter( response, DEFINITION_PARAMETER );
+      String flightNumber = getParameter(FLIGHTNUMBER_PARAMETER, request );
+      if ( flightNumber == null ) {
+          missingRequiredParameter( response, FLIGHTNUMBER_PARAMETER );
+          return;
+      }
+      String src = getParameter(SRC_PARAMETER, request );
+      if ( src == null ) {
+          missingRequiredParameter( response, SRC_PARAMETER );
+          return;
+      }
+      String depart = getParameter(DEPART_PARAMETER, request );
+      if ( depart == null ) {
+          missingRequiredParameter( response, DEPART_PARAMETER );
+          return;
+      }
+      String dest = getParameter(DEST_PARAMETER, request );
+      if ( dest == null ) {
+          missingRequiredParameter( response, DEST_PARAMETER );
+          return;
+      }
+      String arrive = getParameter(ARRIVE_PARAMETER, request );
+      if ( arrive == null ) {
+          missingRequiredParameter( response, ARRIVE_PARAMETER );
           return;
       }
 
-      log("POST " + word + " -> " + definition);
 
-      this.dictionary.put(word, definition);
+      log("POST " + airline + " -> " + flightNumber + ", " + src + ", " + depart + ", " + dest + ", " + arrive);
+
+
+      boolean exists = false;  // does the airline already exist
+      Flight newFlight = new Flight(Integer.parseInt(flightNumber), src, depart, dest, arrive);
+
+      for (Airline i : this.airlines) {
+          if (i.getName().equals(airline)) {
+              exists = true;
+              i.addFlight(newFlight);
+          }
+      }
+      if (!exists) {   // adding the airline if it doesn't exist
+          Airline newAirline = new Airline(airline);
+          this.airlines.add(newAirline);
+          this.airlines.getLast().addFlight(newFlight);
+      }
+
 
       PrintWriter pw = response.getWriter();
-      pw.println(Messages.definedWordAs(word, definition));
+      pw.println(Messages.addedFlight(newFlight.getNumber(), newFlight.getSource(), newFlight.getDestination(), airline));
       pw.flush();
 
       response.setStatus( HttpServletResponse.SC_OK);
   }
+
+    /**
+     * Handles an HTTP POST request by storing the dictionary entry for the
+     * "word" and "definition" request parameters.  It writes the dictionary
+     * entry to the HTTP response.
+     */
+   /* @Override
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
+    {
+        response.setContentType( "text/plain" );
+
+        String word = getParameter(WORD_PARAMETER, request );
+        if (word == null) {
+            missingRequiredParameter(response, WORD_PARAMETER);
+            return;
+        }
+
+        String definition = getParameter(DEFINITION_PARAMETER, request );
+        if ( definition == null) {
+            missingRequiredParameter( response, DEFINITION_PARAMETER );
+            return;
+        }
+
+        log("POST " + word + " -> " + definition);
+
+        this.dictionary.put(word, definition);
+
+        PrintWriter pw = response.getWriter();
+        pw.println(Messages.definedWordAs(word, definition));
+        pw.flush();
+
+        response.setStatus( HttpServletResponse.SC_OK);
+    }*/
 
   /**
    * Handles an HTTP DELETE request by removing all dictionary entries.  This
@@ -111,10 +215,31 @@ public class AirlineServlet extends HttpServlet {
   }
 
   /**
-   * Writes the definition of the given word to the HTTP response.
+   * Writes the flights of the given airline to the HTTP response.
    *
    * The text of the message is formatted with {@link TextDumper}
    */
+  private void writeFlights(String airlineName, HttpServletResponse response) throws IOException {
+
+      ArrayList<Flight> flights = null;
+      for (Airline i : this.airlines) {
+          if (i.getName().equals(airlineName)) { flights = i.getFlights(); }
+          break;
+      }
+    if (flights == null) {
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+    } else {
+      PrintWriter pw = response.getWriter();
+
+      TextDumper dumper = new TextDumper(pw);
+      dumper.dump(flights);
+
+      response.setStatus(HttpServletResponse.SC_OK);
+    }
+  }
+
+  /*
   private void writeDefinition(String word, HttpServletResponse response) throws IOException {
     String definition = this.dictionary.get(word);
 
@@ -131,17 +256,18 @@ public class AirlineServlet extends HttpServlet {
       response.setStatus(HttpServletResponse.SC_OK);
     }
   }
+   */
 
   /**
    * Writes all of the dictionary entries to the HTTP response.
    *
    * The text of the message is formatted with {@link TextDumper}
    */
-  private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
+  private void writeAllAirlineEntries(HttpServletResponse response ) throws IOException
   {
       PrintWriter pw = response.getWriter();
       TextDumper dumper = new TextDumper(pw);
-      dumper.dump(dictionary);
+      dumper.dump(this.airlines);
 
       response.setStatus( HttpServletResponse.SC_OK );
   }
@@ -171,4 +297,6 @@ public class AirlineServlet extends HttpServlet {
   public void log(String msg) {
     System.out.println(msg);
   }
+
+
 }

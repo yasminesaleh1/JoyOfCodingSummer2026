@@ -67,6 +67,10 @@ public class AirlineRestClient
     Response response = http.post(Map.of(AirlineServlet.WORD_PARAMETER, word, AirlineServlet.DEFINITION_PARAMETER, definition));
     throwExceptionIfNotOkayHttpStatus(response);
   }
+  public void addFlight(String word, String definition) throws IOException {
+    Response response = http.post(Map.of(AirlineServlet.WORD_PARAMETER, word, AirlineServlet.DEFINITION_PARAMETER, definition));
+    throwExceptionIfNotOkayHttpStatus(response);
+  }
 
   public void removeAllDictionaryEntries() throws IOException {
     Response response = http.delete(Map.of());
