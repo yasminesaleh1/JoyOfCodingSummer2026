@@ -67,6 +67,15 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
 
     /**
+     * Another argument flight constructor for the HTTP application as a part of project 4
+     * @param flightNum The flight number of the new flight
+     */
+    public Flight(int flightNum) {
+        id = flightNum;
+    }
+
+
+    /**
      * compareTo method that defines how Flight objects will be compared to each other,
      * to help with sorting by either source airport code or departure time.
      * @param f2 the Flight object to be compared.

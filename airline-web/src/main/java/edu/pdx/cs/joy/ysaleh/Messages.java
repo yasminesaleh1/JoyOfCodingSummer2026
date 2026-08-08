@@ -11,17 +11,17 @@ public class Messages
         return String.format("The required parameter \"%s\" is missing", parameterName);
     }
 
-    public static String addedFlight(int flightNum, String src, String dest, String name)
+    public static String addedFlight(String name, int flightNum)
     {
-        return String.format( "Added flight #%d from %s to %s to Airline %s", flightNum, src, dest, name );
+        return String.format( "Added flight #%d to Airline %s", flightNum, name);
     }
     /* public static String definedWordAs(String word, String definition )
     {
         return String.format( "Defined %s as %s", word, definition );
     } */
 
-    public static String allDictionaryEntriesDeleted() {
-        return "All dictionary entries have been deleted";
+    public static String allAirlinesDeleted() {
+        return "All airline entries have been deleted";
     }
 
 }

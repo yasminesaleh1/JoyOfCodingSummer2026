@@ -4,21 +4,16 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PrettyPrinter {
   private final Writer writer;
 
   @VisibleForTesting
-  static String formatWordCount(int count )
+  static String formatFlightCount(int count )
   {
-    return String.format( "Dictionary on server contains %d words", count );
-  }
-
-  @VisibleForTesting
-  static String formatDictionaryEntry(String word, String definition )
-  {
-    return String.format("  %s -> %s", word, definition);
+    return String.format( "Airline on server contains %d flights", count );
   }
 
 
@@ -26,17 +21,16 @@ public class PrettyPrinter {
     this.writer = writer;
   }
 
-  public void dump(Map<String, String> dictionary) {
+  public void dump(Airline airlineToPrint) {
     try (
       PrintWriter pw = new PrintWriter(this.writer)
     ) {
 
-      pw.println(formatWordCount(dictionary.size()));
+      ArrayList<Flight> flights = airlineToPrint.getFlights();
 
-      for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-        String word = entry.getKey();
-        String definition = entry.getValue();
-        pw.println(formatDictionaryEntry(word, definition));
+      pw.println("\nAirline " + airlineToPrint.getName() + " contains " + flights.size() + " flights:");
+      for (Flight f : flights) {
+        pw.println("\tFlight #" + f.getNumber());
       }
 
       pw.flush();

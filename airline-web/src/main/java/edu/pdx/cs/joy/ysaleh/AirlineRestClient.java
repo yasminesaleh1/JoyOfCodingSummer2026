@@ -43,36 +43,33 @@ public class AirlineRestClient
   /**
    * Returns all dictionary entries from the server
    */
-  public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
+  /*public Map<String, String> getAllAirlineEntries() throws IOException, ParserException {
     Response response = http.get(Map.of());
     throwExceptionIfNotOkayHttpStatus(response);
 
     TextParser parser = new TextParser(new StringReader(response.getContent()));
     return parser.parse();
-  }
+  }*/
 
   /**
    * Returns the definition for the given word
    */
-  public String getDefinition(String word) throws IOException, ParserException {
-    Response response = http.get(Map.of(AirlineServlet.WORD_PARAMETER, word));
+  public Airline getAirline(String airline) throws IOException, ParserException {
+    Response response = http.get(Map.of(AirlineServlet.AIRLINE_PARAMETER, airline));
     throwExceptionIfNotOkayHttpStatus(response);
     String content = response.getContent();
 
     TextParser parser = new TextParser(new StringReader(content));
-    return parser.parse().get(word);
+    return parser.parse();  //.get(airline);
   }
 
-  public void addDictionaryEntry(String word, String definition) throws IOException {
-    Response response = http.post(Map.of(AirlineServlet.WORD_PARAMETER, word, AirlineServlet.DEFINITION_PARAMETER, definition));
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-  public void addFlight(String word, String definition) throws IOException {
-    Response response = http.post(Map.of(AirlineServlet.WORD_PARAMETER, word, AirlineServlet.DEFINITION_PARAMETER, definition));
+  public void addFlight(String airline, int flightNum) throws IOException {
+    Response response = http.post(Map.of(AirlineServlet.AIRLINE_PARAMETER, airline, AirlineServlet.FLIGHTNUMBER_PARAMETER, String.valueOf(flightNum)));
     throwExceptionIfNotOkayHttpStatus(response);
   }
 
-  public void removeAllDictionaryEntries() throws IOException {
+
+  public void removeAllAirlines() throws IOException {
     Response response = http.delete(Map.of());
     throwExceptionIfNotOkayHttpStatus(response);
   }

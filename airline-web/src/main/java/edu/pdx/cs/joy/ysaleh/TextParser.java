@@ -17,31 +17,26 @@ public class TextParser {
     this.reader = reader;
   }
 
-  public Map<String, String> parse() throws ParserException {
-    Pattern pattern = Pattern.compile("(.*) : (.*)");
-
-    Map<String, String> map = new HashMap<>();
+  public Airline parse() throws ParserException {
+    Airline airline = null;
 
     try (
       BufferedReader br = new BufferedReader(this.reader)
     ) {
 
       for (String line = br.readLine(); line != null; line = br.readLine()) {
-        Matcher matcher = pattern.matcher(line);
-        if (!matcher.find()) {
-          throw new ParserException("Unexpected text: " + line);
+        if (airline == null) {
+          airline = new Airline(line);
         }
-
-        String word = matcher.group(1);
-        String definition = matcher.group(2);
-
-        map.put(word, definition);
+        else {
+          airline.addFlight(new Flight(Integer.parseInt(line)));
+        }
       }
 
     } catch (IOException e) {
-      throw new ParserException("While parsing dictionary", e);
+      throw new ParserException("While parsing Airline", e);
     }
 
-    return map;
+    return airline;
   }
 }
