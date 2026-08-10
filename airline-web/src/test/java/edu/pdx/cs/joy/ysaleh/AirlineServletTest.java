@@ -36,7 +36,7 @@ class AirlineServletTest {
     // Nothing is written to the response's PrintWriter
     verify(pw, never()).println(anyString());
     verify(response).setStatus(HttpServletResponse.SC_OK);
-  }
+  }*/
 
   @Test
   void addOneWordToDictionary() throws IOException {
@@ -44,10 +44,23 @@ class AirlineServletTest {
 
     String word = "TEST WORD";
     String definition = "TEST DEFINITION";
+    String testAirline = "TEST AIRLINE";
+    int testFlightNum = 10;
+    String testSrc = "PDX";
+    String testDepart = "03/02/2026 12:57 PM";
+    String testDest = "LAX";
+    String testArrive = "03/02/2026 2:57 PM";
 
     HttpServletRequest request = mock(HttpServletRequest.class);
-    when(request.getParameter(AirlineServlet.WORD_PARAMETER)).thenReturn(word);
-    when(request.getParameter(AirlineServlet.DEFINITION_PARAMETER)).thenReturn(definition);
+    //when(request.getParameter(AirlineServlet.WORD_PARAMETER)).thenReturn(word);
+    //when(request.getParameter(AirlineServlet.DEFINITION_PARAMETER)).thenReturn(definition);
+    when(request.getParameter(AirlineServlet.AIRLINE_PARAMETER)).thenReturn(testAirline);
+    when(request.getParameter(AirlineServlet.FLIGHTNUMBER_PARAMETER)).thenReturn(String.valueOf(testFlightNum));
+    when(request.getParameter(AirlineServlet.SRC_PARAMETER)).thenReturn(testSrc);
+    when(request.getParameter(AirlineServlet.DEPART_PARAMETER)).thenReturn(testDepart);
+    when(request.getParameter(AirlineServlet.DEST_PARAMETER)).thenReturn(testDest);
+    when(request.getParameter(AirlineServlet.ARRIVE_PARAMETER)).thenReturn(testArrive);
+
 
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -59,20 +72,21 @@ class AirlineServletTest {
 
     servlet.doPost(request, response);
 
-    assertThat(stringWriter.toString(), containsString(Messages.definedWordAs(word, definition)));
-
     // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
     ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
     verify(response).setStatus(statusCode.capture());
 
     assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
 
-    assertThat(servlet.getDefinition(word), equalTo(definition));
-  }*/
+    //assertThat(servlet.getDefinition(word), equalTo(definition));
+    assertThat(servlet.getAirline(testAirline).getName(), equalTo(testAirline));
 
-  @Test
-  void asserttrue() {
-    assertEquals(2-1, 1);
+    servlet.doGet(request, response);
+
+    assertThat(stringWriter.toString(), containsString(Messages.addedFlight(testAirline, String.valueOf(testFlightNum), testSrc, testDepart, testDest, testArrive)));
   }
+
+
+
 
 }

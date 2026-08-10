@@ -10,19 +10,6 @@ import java.util.Map;
 public class PrettyPrinter {
   private final Writer writer;
 
-  @VisibleForTesting
-  static String formatFlightCount(int count )
-  {
-    return String.format( "Airline on server contains %d flights", count );
-  }
-
-  @VisibleForTesting
-  static String formatFlightEntry(String airlineName, String flight )
-  {
-    return String.format("  %s -> %s", airlineName, flight);
-  }
-
-
   public PrettyPrinter(Writer writer) {
     this.writer = writer;
   }

@@ -200,6 +200,12 @@ public class Project4 {
             //port = Integer.parseInt( portString );
 
         }
+        catch (NumberFormatException e) {
+            System.out.println("Non-numeric characters were detected in the argument for the flight number. " +
+                    "The flight number must be a positive integer with no non-numeric characters.");
+            System.out.println("Please re-run the program to try again, this time including a flight number" +
+                    "with integers only.");
+        }
         catch (ArrayIndexOutOfBoundsException e) {
             // if ArrayIndexOutOfBoundsException was caught when accessing args[] then argument(s) are missing.
             System.out.println("There are arguments missing from the command line. When adding a flight to the server, " +

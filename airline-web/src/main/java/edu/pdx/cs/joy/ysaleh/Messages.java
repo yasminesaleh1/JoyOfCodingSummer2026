@@ -15,17 +15,9 @@ public class Messages
     {
         return String.format( "Added flight #%s from %s on %s to %s on %s to Airline %s", flightNum, name, src, depart, dest, arrive);
     }
-    /* public static String definedWordAs(String word, String definition )
-    {
-        return String.format( "Defined %s as %s", word, definition );
-    } */
 
     public static String definedNewFlightAs(int flightNum, String src, String depart, String dest, String arrive) {
         return String.format("Defined new flight #%d from %s to %s, leaving on %s and arriving on %s.", flightNum, src, dest, depart, arrive);
-    }
-
-    public static String allAirlinesDeleted() {
-        return "All airline entries have been deleted";
     }
 
 }

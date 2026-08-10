@@ -29,11 +29,6 @@ class AirlineRestClientIT {
     return new AirlineRestClient(HOSTNAME, port);
   }
 
-  @Test
-  void test0RemoveAllDictionaryEntries() throws IOException {
-    AirlineRestClient client = newAirlineRestClient();
-    client.removeAllAirlines();
-  }
 
   /*@Test
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
@@ -61,14 +56,15 @@ class AirlineRestClientIT {
     assertEquals(testArrive, flight.getArrivalString());
   }
 
-  /*@Test
+  @Test
   void test4EmptyWordThrowsException() {
     AirlineRestClient client = newAirlineRestClient();
     String emptyString = "";
 
-    HttpRequestHelper.RestException ex =
-      assertThrows(HttpRequestHelper.RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
+    //HttpRequestHelper.RestException ex = assertThrows(HttpRequestHelper.RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
+    HttpRequestHelper.RestException ex = assertThrows(HttpRequestHelper.RestException.class, () -> client.addFlight(emptyString, 0, emptyString, emptyString, emptyString, emptyString));
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
-    assertThat(ex.getMessage(), containsString(Messages.missingRequiredParameter(AirlineServlet.WORD_PARAMETER)));
-  }*/
+    assertThat(ex.getMessage(), containsString(Messages.missingRequiredParameter(AirlineServlet.AIRLINE_PARAMETER)));
+  }
+
   }
