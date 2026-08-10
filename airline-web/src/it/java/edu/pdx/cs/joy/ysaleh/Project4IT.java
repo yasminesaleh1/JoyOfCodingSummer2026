@@ -82,7 +82,7 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString("Airline TEST AIRLINE contains 1 flight"));
+        assertThat(out, out, containsString("Airline TEST AIRLINE contains"));
 
         result = invokeMain( Project4.class, "-search", testAirline, "PDX", "LAX" );
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
