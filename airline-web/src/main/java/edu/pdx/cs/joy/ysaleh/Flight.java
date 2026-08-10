@@ -12,11 +12,13 @@ import java.text.DateFormat;
  * Flight class that represents Flight objects. Contains a source airport, a destination airport,
  * a departure time, an arrival time, and an identification number.
  */
-public class Flight extends AbstractFlight implements Comparable<Flight> {
+public class Flight extends AbstractFlight {
     private String source;  //  Three-letter code of departure airport
     private String destination;  //  Three-letter code of departure airport
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
+    private String departure;
+    private String arrival;
     private int id;
     private String originalDepartureTime;
     private String originalArrivalTime;
@@ -56,38 +58,13 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      * @param arrive the date and time of flight departure
      */
     public Flight(int flightNum, String src, String depart, String dest, String arrive) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy h:m a"); //  eg: 01/02/2026 9:16 PM
-        originalDepartureTime = depart;
-        originalArrivalTime = arrive;
-        departureTime = LocalDateTime.parse(depart, formatter);
-        arrivalTime = LocalDateTime.parse(arrive, formatter);
+        departure = depart;
+        arrival = arrive;
         id = flightNum;
         source = src;
         destination = dest;
     }
 
-    /**
-     * Another argument flight constructor for the HTTP application as a part of project 4
-     * @param flightNum The flight number of the new flight
-     */
-    public Flight(int flightNum) {
-        id = flightNum;
-    }
-
-
-    /**
-     * compareTo method that defines how Flight objects will be compared to each other,
-     * to help with sorting by either source airport code or departure time.
-     * @param f2 the Flight object to be compared.
-     * @return the integer comparison offset
-     */
-    public int compareTo(Flight f2) {
-        // if the two flights depart from the same airport, sort by departure time
-        if (source.compareTo(f2.source) == 0) { return departureTime.compareTo(f2.departureTime); }
-
-        // otherwise, default to sorting by source airport code
-        else { return source.compareTo(f2.source); }
-    }
 
     /**
      * Getter function for Flight identification number
@@ -112,7 +89,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      */
     @Override
     public String getDepartureString() {
-        return (DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)).format(departureTime);
+        return departure;
     }
 
     /**
@@ -129,7 +106,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      */
     @Override
     public String getArrivalString() {
-        return (DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)).format(arrivalTime);
+        return arrival;
     }
 
     /**
@@ -170,19 +147,5 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         return originalArrivalTime;
     }
 
-    /**
-     * A method to calculate the flight duration in minutes. The function works by
-     * converting the departure and times to seconds since the epoch then doing some
-     * math to figure out the minutes between them.
-     * Inspiration source: https://medium.com/@AlexanderObregon/javas-duration-between-method-explained-a15e2cc54c8b
-     * @return the flight duration in minutes
-     */
-    public long calculateDuration() {
-        long flightDuration;
-        ZoneOffset zone = ZoneOffset.of("+00:00");
-        flightDuration = arrivalTime.toEpochSecond(zone) - departureTime.toEpochSecond(zone);
-        flightDuration = (flightDuration / 60);
-        return flightDuration;
-    }
 
 }

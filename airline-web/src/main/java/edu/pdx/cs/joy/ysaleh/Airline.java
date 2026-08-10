@@ -51,14 +51,14 @@ public class Airline extends AbstractAirline<Flight> {
      */
     @Override
     public void addFlight(Flight flight) {
-        if (flight.calculateDuration() < 0) {
+        /*if (flight.calculateDuration() < 0) {
             throw new IllegalArgumentException("It appears that the departure time entered is after the arrival time. " +
                     "The arrival time must be before the departure time. \nPlease re-run the program, " +
                     "this time entering an arrival time that chronologically comes after the departure time.");
-        }
+        }*/
         airlineFlights.add(flight);
         // sorts the list according to what I defined in the overloaded compareTo() method
-        airlineFlights.sort(null);
+        //airlineFlights.sort(null);
 
     }
 

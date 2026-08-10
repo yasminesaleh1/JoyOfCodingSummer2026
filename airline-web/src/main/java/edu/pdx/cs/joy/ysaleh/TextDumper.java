@@ -21,6 +21,10 @@ public class TextDumper {
         for (Flight f : airline.getFlights()) {
           if (f.getSource().equals(src) && f.getDestination().equals(dest)) {
             pw.println(f.getNumber());
+            pw.println(f.getSource());
+            pw.println(f.getDepartureString());
+            pw.println(f.getDestination());
+            pw.println(f.getArrivalString());
           }
         }
       }
@@ -28,6 +32,10 @@ public class TextDumper {
         pw.println(airline.getName());
         for (Flight f : airline.getFlights()) {
           pw.println(f.getNumber());
+          pw.println(f.getSource());
+          pw.println(f.getDepartureString());
+          pw.println(f.getDestination());
+          pw.println(f.getArrivalString());
         }
       }
 

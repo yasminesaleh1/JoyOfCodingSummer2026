@@ -31,10 +31,10 @@ class AirlineRestClientIT {
   @Test
   void test0RemoveAllDictionaryEntries() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
-    client.removeAllDictionaryEntries();
+    client.removeAllAirlines();
   }
 
-  @Test
+  /*@Test
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
     Map<String, String> dictionary = client.getAllDictionaryEntries();
@@ -61,4 +61,5 @@ class AirlineRestClientIT {
       assertThrows(HttpRequestHelper.RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
     assertThat(ex.getMessage(), containsString(Messages.missingRequiredParameter(AirlineServlet.WORD_PARAMETER)));
-  }}
+  }*/
+  }

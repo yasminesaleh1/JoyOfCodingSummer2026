@@ -19,18 +19,37 @@ public class TextParser {
 
   public Airline parse() throws ParserException {
     Airline airline = null;
+    String num;
+    String airlineName;
+    int flightNum;
+    String src;
+    String depart;
+    String dest;
+    String arrive;
 
     try (
       BufferedReader br = new BufferedReader(this.reader)
     ) {
 
-      for (String line = br.readLine(); line != null; line = br.readLine()) {
+      /*for (String line = br.readLine(); line != null; line = br.readLine()) {
         if (airline == null) {
           airline = new Airline(line);
         }
         else {
-          airline.addFlight(new Flight(Integer.parseInt(line)));
+          airline.addFlight(new Flight(Integer.parseInt(line)), );
         }
+      }*/
+
+      airlineName = br.readLine();
+      airline = new Airline(airlineName);
+      while ((num = br.readLine()) != null) {
+        flightNum = Integer.parseInt(num);
+        src = br.readLine();
+        depart = br.readLine();
+        dest = br.readLine();
+        arrive = br.readLine();
+        Flight newFlight = new Flight(flightNum, src, depart, dest, arrive);
+        airline.addFlight(newFlight);
       }
 
     } catch (IOException e) {

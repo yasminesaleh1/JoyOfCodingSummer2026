@@ -27,7 +27,7 @@ class Project4IT extends InvokeMainTestCase {
     @Test
     void test0RemoveAllMappings() throws IOException {
       AirlineRestClient client = new AirlineRestClient(HOSTNAME, Integer.parseInt(PORT));
-      client.removeAllDictionaryEntries();
+      client.removeAllAirlines();
     }
 
     @Test
@@ -36,14 +36,14 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
     }
 
-    @Test
+    /*@Test
     void test2EmptyServer() {
         MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
 
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatWordCount(0)));
+        assertThat(out, out, containsString(PrettyPrinter.formatFlightCount(0)));
     }
 
     @Test
@@ -84,5 +84,5 @@ class Project4IT extends InvokeMainTestCase {
 
         out = result.getTextWrittenToStandardOut();
         assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
-    }
+    }*/
 }

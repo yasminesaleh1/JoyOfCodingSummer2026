@@ -24,8 +24,8 @@ public class AirlineServlet extends HttpServlet {
   static final String FLIGHTNUMBER_PARAMETER = "flightNumber";
   static final String SRC_PARAMETER = "src";
   static final String DEST_PARAMETER = "dest";
-  //static final String DEPART_PARAMETER = "depart";
-    //static final String ARRIVE_PARAMETER = "arrive";
+  static final String DEPART_PARAMETER = "depart";
+  static final String ARRIVE_PARAMETER = "arrive";
 
   //private final Map<String, String> dictionary = new HashMap<>();
   private final Map<String, Airline> airlines = new HashMap<>();
@@ -49,7 +49,7 @@ public class AirlineServlet extends HttpServlet {
       String dest = getParameter( DEST_PARAMETER, request );
       if (src != null && dest != null) {
           log("GET " + airline + " from " + src + " to " + dest);
-          writeAirline(airline, response);
+          writeAirlineSrcDest(airline, src, dest, response);
       }
       else if (airline != null) {
           log("GET " + airline);
@@ -84,7 +84,32 @@ public class AirlineServlet extends HttpServlet {
           return;
       }
 
-      log("POST " + airline + " -> " + flightNumber);
+      String src = getParameter(SRC_PARAMETER, request );
+      if ( src == null ) {
+          missingRequiredParameter( response, SRC_PARAMETER );
+          return;
+      }
+
+      String depart = getParameter(DEPART_PARAMETER, request );
+      if ( depart == null ) {
+          missingRequiredParameter( response, DEPART_PARAMETER );
+          return;
+      }
+
+      String dest = getParameter(DEST_PARAMETER, request );
+      if ( dest == null ) {
+          missingRequiredParameter( response, DEST_PARAMETER );
+          return;
+      }
+
+      String arrive = getParameter(ARRIVE_PARAMETER, request );
+      if ( arrive == null ) {
+          missingRequiredParameter( response, ARRIVE_PARAMETER );
+          return;
+      }
+
+
+      log("POST " + airline + " -> " + flightNumber + " " + src + " " + depart + " " + dest + " " + arrive);
 
       Airline retrievedAirline = this.airlines.get(airline);
       if (retrievedAirline == null) {
@@ -92,11 +117,11 @@ public class AirlineServlet extends HttpServlet {
           this.airlines.put(airline, retrievedAirline);
       }
 
-      Flight newFlight = new Flight(Integer.parseInt(flightNumber));
+      Flight newFlight = new Flight(Integer.parseInt(flightNumber), src, depart, dest, arrive);
       retrievedAirline.addFlight(newFlight);
 
       PrintWriter pw = response.getWriter();
-      pw.println(Messages.addedFlight(airline, newFlight.getNumber()));
+      pw.println(Messages.addedFlight(airline, flightNumber, src, depart, dest, arrive));
       pw.flush();
 
       response.setStatus( HttpServletResponse.SC_OK);

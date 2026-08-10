@@ -63,8 +63,13 @@ public class AirlineRestClient
     return parser.parse();  //.get(airline);
   }
 
-  public void addFlight(String airline, int flightNum) throws IOException {
-    Response response = http.post(Map.of(AirlineServlet.AIRLINE_PARAMETER, airline, AirlineServlet.FLIGHTNUMBER_PARAMETER, String.valueOf(flightNum)));
+  public void addFlight(String airline, int flightNum, String src, String depart, String dest, String arrive) throws IOException {
+    Response response = http.post(Map.of(AirlineServlet.AIRLINE_PARAMETER, airline,
+            AirlineServlet.FLIGHTNUMBER_PARAMETER, String.valueOf(flightNum),
+            AirlineServlet.SRC_PARAMETER, String.valueOf(src),
+            AirlineServlet.DEPART_PARAMETER, String.valueOf(depart),
+            AirlineServlet.DEST_PARAMETER, String.valueOf(dest),
+            AirlineServlet.ARRIVE_PARAMETER, String.valueOf(arrive)));
     throwExceptionIfNotOkayHttpStatus(response);
   }
 

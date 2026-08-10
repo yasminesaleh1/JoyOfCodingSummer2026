@@ -16,22 +16,38 @@ public class PrettyPrinter {
     return String.format( "Airline on server contains %d flights", count );
   }
 
+  @VisibleForTesting
+  static String formatFlightEntry(String airlineName, String flight )
+  {
+    return String.format("  %s -> %s", airlineName, flight);
+  }
+
 
   public PrettyPrinter(Writer writer) {
     this.writer = writer;
   }
 
-  public void dump(Airline airlineToPrint) {
+  public void dump(Airline airlineToPrint, String src, String dest) {
     try (
       PrintWriter pw = new PrintWriter(this.writer)
     ) {
 
       ArrayList<Flight> flights = airlineToPrint.getFlights();
 
-      pw.println("\nAirline " + airlineToPrint.getName() + " contains " + flights.size() + " flights:");
-      for (Flight f : flights) {
-        pw.println("\tFlight #" + f.getNumber());
+      if (src != null && dest != null) {
+        for (Flight f : flights) {
+          if (f.getSource().equals(src) && f.getDestination().equals(dest)) {
+            pw.println("\tFlight #" + f.getNumber() + " departs " + f.getSource() + " at " + f.getDepartureString() + " and arrives at " + f.getDestination() + " at " + f.getArrivalString());
+          }
+        }
       }
+      else {
+        pw.println("Flights in Airline " + airlineToPrint.getName() + " that depart from " + src + " and arrive at " + dest + ":");
+        for (Flight f : flights) {
+          pw.println("\tFlight #" + f.getNumber() + " departs " + f.getSource() + " at " + f.getDepartureString() + " and arrives at " + f.getDestination() + " at " + f.getArrivalString());
+        }
+      }
+
 
       pw.flush();
     }
