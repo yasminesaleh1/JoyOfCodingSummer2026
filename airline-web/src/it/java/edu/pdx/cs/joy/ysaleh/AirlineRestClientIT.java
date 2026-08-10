@@ -13,6 +13,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -39,20 +40,28 @@ class AirlineRestClientIT {
     AirlineRestClient client = newAirlineRestClient();
     Map<String, String> dictionary = client.getAllDictionaryEntries();
     assertThat(dictionary.size(), equalTo(0));
-  }
+  }*/
 
   @Test
-  void test2DefineOneWord() throws IOException, ParserException {
+  void test2DefineOneAirline() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
-    String testWord = "TEST WORD";
-    String testDefinition = "TEST DEFINITION";
-    client.addDictionaryEntry(testWord, testDefinition);
+    String testAirline = "TEST AIRLINE";
+    int testFlightNum = 10;
+    String testSrc = "PDX";
+    String testDepart = "03/02/2026 12:57 PM";
+    String testDest = "LAX";
+    String testArrive = "03/02/2026 2:57 PM";
+    client.addFlight(testAirline, testFlightNum, testSrc, testDepart, testDest, testArrive);
 
-    String definition = client.getDefinition(testWord);
-    assertThat(definition, equalTo(testDefinition));
+    Flight flight = client.getAirline(testAirline).getFlights().getFirst();
+    assertEquals(testFlightNum, flight.getNumber());
+    assertEquals(testSrc, flight.getSource());
+    assertEquals(testDepart, flight.getDepartureString());
+    assertEquals(testDest, flight.getDestination());
+    assertEquals(testArrive, flight.getArrivalString());
   }
 
-  @Test
+  /*@Test
   void test4EmptyWordThrowsException() {
     AirlineRestClient client = newAirlineRestClient();
     String emptyString = "";

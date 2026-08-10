@@ -19,7 +19,7 @@ public class TextDumper {
       if (src != null && dest != null) {
         pw.println(airline.getName());
         for (Flight f : airline.getFlights()) {
-          if (f.getSource().equals(src) && f.getDestination().equals(dest)) {
+          if (f.getSource().equals(src.toUpperCase()) && f.getDestination().equals(dest.toUpperCase())) {
             pw.println(f.getNumber());
             pw.println(f.getSource());
             pw.println(f.getDepartureString());

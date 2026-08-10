@@ -35,14 +35,15 @@ public class PrettyPrinter {
       ArrayList<Flight> flights = airlineToPrint.getFlights();
 
       if (src != null && dest != null) {
+        pw.println("Flights in Airline " + airlineToPrint.getName() + " that depart from " + src + " and arrive at " + dest + ":");
         for (Flight f : flights) {
-          if (f.getSource().equals(src) && f.getDestination().equals(dest)) {
+          if (f.getSource().equals(src.toUpperCase()) && f.getDestination().equals(dest.toUpperCase())) {
             pw.println("\tFlight #" + f.getNumber() + " departs " + f.getSource() + " at " + f.getDepartureString() + " and arrives at " + f.getDestination() + " at " + f.getArrivalString());
           }
         }
       }
       else {
-        pw.println("Flights in Airline " + airlineToPrint.getName() + " that depart from " + src + " and arrive at " + dest + ":");
+        pw.println("\nAirline " + airlineToPrint.getName() + " contains " + flights.size() + " flights:");
         for (Flight f : flights) {
           pw.println("\tFlight #" + f.getNumber() + " departs " + f.getSource() + " at " + f.getDepartureString() + " and arrives at " + f.getDestination() + " at " + f.getArrivalString());
         }

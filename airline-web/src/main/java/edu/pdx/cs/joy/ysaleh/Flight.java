@@ -61,8 +61,8 @@ public class Flight extends AbstractFlight {
         departure = depart;
         arrival = arrive;
         id = flightNum;
-        source = src;
-        destination = dest;
+        source = src.toUpperCase();
+        destination = dest.toUpperCase();
     }
 
 

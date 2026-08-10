@@ -46,7 +46,7 @@ public class Project4 {
         boolean search = false;
         boolean print = false;
         int i = 0;
-        int port;
+        int port = 0;
 
         try {
             /* When no command line arguments are provided, the program should provide a helpful
@@ -74,14 +74,20 @@ public class Project4 {
                         if (i + 2 <= args.length && !(args[i+1].startsWith("-")) ) {
                             srcSearch = args[++i];
                             destSearch = args[++i];
+
+                            // src airport not 3 chars
+                            if (!(srcSearch.matches(".{3}"))) {
+                                throw new IllegalArgumentException("Source airport code entered is not 3 letters long. Source and destination " +
+                                        "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
+                                        "time with a source airport code that is exactly three letters long.");
+                            }
+                            // dest airport not 3 chars
+                            if (!(destSearch.matches(".{3}"))) {
+                                throw new IllegalArgumentException("Destination airport code entered is not 3 letters long. Source and destination " +
+                                        "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
+                                        "time with a destination airport code that is exactly three letters long.");
+                            }
                         }
-                        // if a non-option arg is detected after search (and it's not a valid argument for -search)
-                        /*if (i < args.length && !(args[i+1].startsWith("-"))) {
-                            throw new IllegalArgumentException("Extraneous arguments were detected after the -search option. " +
-                                    "The -search option only takes an airline name argument, and optionally a source airport and " +
-                                    "destination airport argument; nothing else. \nPlease run the program again, this time without " +
-                                    "extra arguments added to the -search option.");
-                        }*/
                         break;
                     case "-print":
                         print = true;
@@ -94,7 +100,9 @@ public class Project4 {
                         System.out.println("Assignment: Project 4: A REST-ful Airline Web Service ");
                         System.out.println("\nWelcome to my Airline Program. This program creates a new airline and flight based on the " +
                                 "command line arguments you include. It supports an airline server that provides REST-ful web services" +
-                                " to an airline client, utilizing HTTP-based network communication. See below for usage of this program:");
+                                " to an airline client, utilizing HTTP-based network communication. You can either add new flights to an " +
+                                "airline, search for a specific airline's flights, or search for an airline's flights between two airports. " +
+                                "Please see below for usage of this program:");
                         System.out.println(PROGRAM_USAGE);
                         return;
                     default:
@@ -167,6 +175,13 @@ public class Project4 {
 
                 Flight flight = new Flight(newFlightNum, newSrc, newDepart, newDest, newArrive);
             }
+            else {  // -search option called with extraneous arguments
+                if (args.length > i+1) {
+                    throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
+                            "Please see below for correct usage of this program and do not add any other " +
+                            "options/arguments not specified here:\n" + PROGRAM_USAGE);
+                }
+            }
 
             if (hostName != null && portString == null) {
                 throw new IllegalArgumentException("A host was given on the command line without a port. If a host is specified" +
@@ -187,8 +202,8 @@ public class Project4 {
         }
         catch (ArrayIndexOutOfBoundsException e) {
             // if ArrayIndexOutOfBoundsException was caught when accessing args[] then argument(s) are missing.
-            System.out.println("There are arguments missing from the command line. " +
-                    "All the following arguments are required and must be included on the command line in this order: " +
+            System.out.println("There are arguments missing from the command line. When adding a flight to the server, " +
+                    "all the following arguments are required and must be included on the command line in this order: " +
                     "airline name, flight ID number, departure airport code, departure date & time, " +
                     "destination airport code, arrival date & time.");
             System.out.println("Please re-run the program to try again, this time including all the " +
@@ -203,10 +218,10 @@ public class Project4 {
 
         try {
             port = Integer.parseInt( portString );
-
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException("A non-integer was entered in for the port number. The port number can only be an integer." +
+            System.out.println("A non-integer was entered in for the port number. The port number can only be an integer." +
                     " Please run the program again, this time only entering an integer for the port number.");
+            return;
         }
 
         AirlineRestClient client = new AirlineRestClient(hostName, port);
@@ -215,7 +230,7 @@ public class Project4 {
         try {   // -search option to either pretty-print all airlines or search for flights between 2 airports
             if (search) {
                 if (airlineName == null) {
-                    throw new IllegalArgumentException("Error: no airline name found.");
+                    throw new IllegalArgumentException("Error: no airline name found. Please re-run the program and enter an airline name with your chosen option.");
                 }
                 else if (srcSearch != null && destSearch != null) {  // print flights between 2 airports
                     Airline airlineToPrint = client.getAirline(airlineName);
@@ -235,15 +250,25 @@ public class Project4 {
             }
             else {  // add/post a flight to an airline
                 client.addFlight(airlineName, newFlightNum, newSrc, newDepart, newDest, newArrive);
-                message = Messages.definedNewFlightAs(newFlightNum, newSrc, newDepart, newDest, newArrive);
+                if (print) {
+                    message = Messages.definedNewFlightAs(newFlightNum, newSrc, newDepart, newDest, newArrive);
+                }
             }
 
         } catch (IOException | ParserException ex ) {
-            error("While contacting server: " + ex.getMessage());
+            error("It appears that a connection cannot be established. The following message was received while attempting to contact the server: " + ex.getMessage() +
+                    "\nPlease try these basic troubleshooting steps and try to re-run the program after: " +
+                    "\n\t-Ensure that you have the server side of the program up and running in another terminal " +
+                    "(start with mvnw jetty:run) and then re-try running the client side.\n" +
+                    "\n\t-Ensure that the port you entered on the command line isn't busy. The default port used (if no other " +
+                    "one was entered) is 8080, so ensure that one isn't in use or specify another port that isn't busy on the command line.\n" +
+                    "\n\t-If you entered the -host option on the command line, ensure that you entered your host name correctly.\n");
             return;
         } catch (HttpRequestHelper.RestException e) {
             String httpError = String.format("Error: when trying to process your request, the client received a HTTP status code of %d", e.getHttpStatusCode());
             System.err.println(httpError);
+            System.err.println("If the error is 404, it is possible that the error was caused by an attempt to search for an airline that wasn't found in the server. " +
+                    "In that case, enter the airline into the server before searching for it then try again.");
         }
 
         System.out.println(message);
