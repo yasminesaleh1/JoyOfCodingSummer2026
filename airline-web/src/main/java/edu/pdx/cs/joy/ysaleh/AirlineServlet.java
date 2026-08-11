@@ -12,10 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This servlet ultimately provides a REST API for working with an
- * <code>Airline</code>.  However, in its current state, it is an example
- * of how to use HTTP and Java servlets to store simple dictionary of words
- * and their definitions.
+ * This servlet provides a REST API for working with an <code>Airline</code>.
  */
 public class AirlineServlet extends HttpServlet {
   static final String WORD_PARAMETER = "word";
@@ -27,17 +24,16 @@ public class AirlineServlet extends HttpServlet {
   static final String DEPART_PARAMETER = "depart";
   static final String ARRIVE_PARAMETER = "arrive";
 
-  //private final Map<String, String> dictionary = new HashMap<>();
   private final Map<String, Airline> airlines = new HashMap<>();
-  //private final ArrayList<Airline> airlines = new ArrayList<>();
 
   /**
-   * Handles an HTTP GET request from a client by writing the definition of the
-   * word specified in the "word" HTTP parameter to the HTTP response.  If the
-   * "word" parameter is not specified, all of the entries in the dictionary
-   * are written to the HTTP response.
+   * Handles an HTTP GET request from a client by writing the name of the
+   * airline specified in the "AIRLINE" HTTP parameter to the HTTP response,
+   * and optionally writes the SRC and DEST airports to search for flights between them.
    * I asked Claude for help on how I would support a second URL in this kind of application,
    * which is how I got the idea for the if-statement logic and the separate helper function.
+   * @param request the HTTP request
+   * @param response the HTTP response
    */
   @Override
   protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
@@ -63,9 +59,11 @@ public class AirlineServlet extends HttpServlet {
 
 
   /**
-   * Handles an HTTP POST request by storing the dictionary entry for the
-   * "word" and "definition" request parameters.  It writes the dictionary
-   * entry to the HTTP response.
+   * Handles an HTTP POST request by storing the airline's flight entry for the
+   * "AIRLINE", "FLIGHTNUMBER", "SRC", "DEPART", "DEST", and "ARRIVE" request parameters.
+   * It writes the flight entry to the HTTP response.
+   * @param request the HTTP request
+   * @param response the HTTP response
    */
   @Override
   protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
@@ -133,6 +131,8 @@ public class AirlineServlet extends HttpServlet {
    * Writes an error message about a missing parameter to the HTTP response.
    *
    * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
+   * @param response the HTTP response
+   * @param parameterName the missing parameter
    */
   private void missingRequiredParameter( HttpServletResponse response, String parameterName )
       throws IOException
@@ -145,6 +145,8 @@ public class AirlineServlet extends HttpServlet {
    * Writes the flights of the given airline to the HTTP response.
    *
    * The text of the message is formatted with {@link TextDumper}
+   * @param airlineName the name of the airline to write
+   * @param response the http response
    */
   private void writeAirline(String airlineName, HttpServletResponse response) throws IOException {
 
@@ -162,7 +164,16 @@ public class AirlineServlet extends HttpServlet {
     }
   }
 
-
+    /**
+     * Writes the flights of the given airline from a specific source airport
+     * and a specific destination airport to the HTTP response.
+     *
+     * The text of the message is formatted with {@link TextDumper}
+     * @param airlineName the name of the airline to write
+     * @param src the source airport to search for
+     * @param dest the destination airport to search for
+     * @param response the http response
+     */
     private void writeAirlineSrcDest(String airlineName, String src, String dest, HttpServletResponse response) throws IOException {
 
         Airline retrievedAirline = this.airlines.get(airlineName);
@@ -183,7 +194,8 @@ public class AirlineServlet extends HttpServlet {
 
   /**
    * Returns the value of the HTTP request parameter with the given name.
-   *
+   * @param name the name of the parameter to get
+   * @param request the HTTP request
    * @return <code>null</code> if the value of the parameter is
    *         <code>null</code> or is the empty string
    */
@@ -197,11 +209,20 @@ public class AirlineServlet extends HttpServlet {
     }
   }
 
+    /**
+     * getter for an airline
+     * @param airlineName the airline to retrieve
+     * @return The retrieved airline
+     */
   @VisibleForTesting
   Airline getAirline(String airlineName) {
       return this.airlines.get(airlineName);
   }
 
+    /**
+     * Logs a message
+     * @param msg a <code>String</code> specifying the message to be written to the log file
+     */
   @Override
   public void log(String msg) {
     System.out.println(msg);

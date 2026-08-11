@@ -6,7 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-
+/**
+ * A class to parse an airline's flights.
+ */
 public class TextParser {
   private final Reader reader;
 
@@ -14,6 +16,11 @@ public class TextParser {
     this.reader = reader;
   }
 
+  /**
+   * Parses an airline's flights by reading them into an airline object.
+   * @return the newly-parsed airline.
+   * @throws ParserException if the information being parsed is mal-formatted then this will be thrown
+   */
   public Airline parse() throws ParserException {
     Airline airline = null;
     String num;

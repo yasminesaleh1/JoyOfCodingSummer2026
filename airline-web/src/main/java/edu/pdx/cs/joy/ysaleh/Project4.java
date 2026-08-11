@@ -31,6 +31,10 @@ public class Project4 {
 
     public static final String MISSING_ARGS = "Missing command line arguments";
 
+    /**
+     * The main function which runs the client side of the program
+     * @param args the command line arguments
+     */
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
@@ -43,6 +47,7 @@ public class Project4 {
         String newArrive = null;
         String srcSearch = null;
         String destSearch = null;
+        Flight flight = null;
         boolean search = false;
         boolean print = false;
         int i = 0;
@@ -70,7 +75,7 @@ public class Project4 {
                         break;
                     case "-search":
                         search = true;
-                        airlineName = args[++i];
+                        /*airlineName = args[++i];
                         if (i + 2 <= args.length && !(args[i+1].startsWith("-")) ) {
                             srcSearch = args[++i];
                             destSearch = args[++i];
@@ -87,7 +92,7 @@ public class Project4 {
                                         "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
                                         "time with a destination airport code that is exactly three letters long.");
                             }
-                        }
+                        }*/
                         break;
                     case "-print":
                         print = true;
@@ -173,13 +178,32 @@ public class Project4 {
                             "\nPlease re-run the program to try again, this time entering the arrival date and time in the correct format.");
                 }
 
-                Flight flight = new Flight(newFlightNum, newSrc, newDepart, newDest, newArrive);
+                flight = new Flight(newFlightNum, newSrc, newDepart, newDest, newArrive);
             }
-            else {  // -search option called with extraneous arguments
-                if (args.length > i+1) {
+            else {
+                if (args.length > i+3) {  // -search option called with extraneous arguments
                     throw new IllegalArgumentException("Extraneous arguments were detected on the command line. " +
                             "Please see below for correct usage of this program and do not add any other " +
                             "options/arguments not specified here:\n" + PROGRAM_USAGE);
+                }
+
+                airlineName = args[i];
+                if (i + 3 == args.length) {
+                    srcSearch = args[++i];
+                    destSearch = args[++i];
+
+                    // src airport not 3 chars
+                    if (!(srcSearch.matches(".{3}"))) {
+                        throw new IllegalArgumentException("Source airport code entered is not 3 letters long. Source and destination " +
+                                "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
+                                "time with a source airport code that is exactly three letters long.");
+                    }
+                    // dest airport not 3 chars
+                    if (!(destSearch.matches(".{3}"))) {
+                        throw new IllegalArgumentException("Destination airport code entered is not 3 letters long. Source and destination " +
+                                "airport codes must each be exactly three letters long. \nPlease re-run the program to try again, this " +
+                                "time with a destination airport code that is exactly three letters long.");
+                    }
                 }
             }
 
@@ -256,8 +280,9 @@ public class Project4 {
             }
             else {  // add/post a flight to an airline
                 client.addFlight(airlineName, newFlightNum, newSrc, newDepart, newDest, newArrive);
-                if (print) {
-                    message = Messages.definedNewFlightAs(newFlightNum, newSrc, newDepart, newDest, newArrive);
+                message = Messages.definedNewFlightAs(newFlightNum, newSrc, newDepart, newDest, newArrive);
+                if (flight != null && print) {
+                    System.out.println(flight.getString());
                 }
             }
 
@@ -280,6 +305,10 @@ public class Project4 {
         System.out.println(message);
     }
 
+    /**
+     * A function to print messages to standard error
+     * @param message the message to print
+     */
     private static void error( String message )
     {
         PrintStream err = System.err;

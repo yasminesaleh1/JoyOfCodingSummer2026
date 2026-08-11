@@ -13,9 +13,7 @@ import static edu.pdx.cs.joy.web.HttpRequestHelper.*;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
- * A helper class for accessing the rest client.  Note that this class provides
- * an example of how to make gets and posts to a URL.  You'll need to change it
- * to do something other than just send dictionary entries.
+ * A helper class for accessing the rest client.
  */
 public class AirlineRestClient
 {
@@ -28,7 +26,7 @@ public class AirlineRestClient
     /**
      * Creates a client to the airline REST service running on the given host and port
      * @param hostName The name of the host
-     * @param port The port
+     * @param port The port number
      */
     public AirlineRestClient( String hostName, int port )
     {
@@ -43,7 +41,8 @@ public class AirlineRestClient
 
 
   /**
-   * Returns the definition for the given word
+   * Returns the Airline object with the given name
+   * @param airline the name of the airline to search for
    */
   public Airline getAirline(String airline) throws IOException, ParserException {
     Response response = http.get(Map.of(AirlineServlet.AIRLINE_PARAMETER, airline));
@@ -54,6 +53,16 @@ public class AirlineRestClient
     return parser.parse();  //.get(airline);
   }
 
+    /**
+     * Posts a new flight to the server
+     * @param airline the airline to add the flight to
+     * @param flightNum the number of the new flight
+     * @param src the source airport of the new flight
+     * @param depart the departure time of the new flight
+     * @param dest the destination airport of the new flight
+     * @param arrive the arrival time of the new flight
+     * @throws IOException thrown by http.post()
+     */
   public void addFlight(String airline, int flightNum, String src, String depart, String dest, String arrive) throws IOException {
     Response response = http.post(Map.of(AirlineServlet.AIRLINE_PARAMETER, airline,
             AirlineServlet.FLIGHTNUMBER_PARAMETER, String.valueOf(flightNum),
@@ -65,6 +74,10 @@ public class AirlineRestClient
   }
 
 
+    /**
+     * Throws an exception if an HTTP status other than OK (200) is received
+     * @param response the HTTP response
+     */
   private void throwExceptionIfNotOkayHttpStatus(Response response) {
     int code = response.getHttpStatusCode();
     if (code != HTTP_OK) {
