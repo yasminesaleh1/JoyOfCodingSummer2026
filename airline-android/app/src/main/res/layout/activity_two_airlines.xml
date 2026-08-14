@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".twoAirlinesActivity">
+
+    <!-- back to main button -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="204dp"
+        android:layout_height="64dp"
+        android:text="@string/back_to_main"
+        android:onClick="backToMain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="407dp"
+        android:layout_height="636dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.957">
+
+        <!-- confirm button  -->
+
+        <!-- enter airline prompt  -->
+
+        <!-- Text box for entering airline name
+        Reference for "android:hint" line: AI overview from Google search "how to make initial text disappear when typing in text box in android studio" -->
+
+        <Button
+            android:id="@+id/confirm_button"
+            android:layout_width="251dp"
+            android:layout_height="85dp"
+            android:onClick="printFlights"
+            android:text="@string/confirm"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.97" />
+
+        <TextView
+            android:id="@+id/enterAirlinePrompt"
+            android:layout_width="405dp"
+            android:layout_height="103dp"
+            android:inputType="none"
+            android:text="Enter the airline and the source and destination airports that you want to search for:"
+            android:textAlignment="center"
+            android:textSize="29sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/enter_airline_name"
+            android:layout_width="344dp"
+            android:layout_height="51dp"
+            android:ems="10"
+            android:hint="Enter Airline name..."
+            android:inputType="text"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterAirlinePrompt"
+            app:layout_constraintVertical_bias="0.026" />
+
+        <EditText
+            android:id="@+id/enter_dest"
+            android:layout_width="353dp"
+            android:layout_height="52dp"
+            android:ems="10"
+            android:hint="Enter Destination Airport code..."
+            android:inputType="text"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterAirlinePrompt"
+            app:layout_constraintVertical_bias="0.376" />
+
+        <EditText
+            android:id="@+id/enter_src"
+            android:layout_width="350dp"
+            android:layout_height="51dp"
+            android:ems="10"
+            android:hint="Enter Source Airport Code..."
+            android:inputType="text"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterAirlinePrompt"
+            app:layout_constraintVertical_bias="0.195" />
+
+        <EditText
+            android:id="@+id/displayedAirline"
+            android:layout_width="365dp"
+            android:layout_height="185dp"
+            android:ems="10"
+            android:text=""
+            android:inputType="textMultiLine"
+            android:scrollHorizontally="false"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.488"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_airline_name"
+            app:layout_constraintVertical_bias="0.812" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

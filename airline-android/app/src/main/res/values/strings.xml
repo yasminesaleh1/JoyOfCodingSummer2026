@@ -17,5 +17,15 @@
     <string name="back_to_main">← Back to Main</string>
     <string name="confirm">Confirm</string>
     <string name="enter_airline_prompt">Enter the name of your new Airline:</string>
+    <string name="enter_flight_prompt">Enter the information for your new Flight:</string>
     <string name="enter_here">Enter here...</string>
+    <string name="enter_flight_number">Enter Flight Number...</string>
+    <string name="enter_source_aiport_code">Enter Source Aiport Code</string>
+    <string name="enter_departure_time">Enter Departure Time...</string>
+    <string name="enter_destination_airport_code">Enter Destination Airport Code...</string>
+    <string name="enter_arrival_time">Enter Arrival Time...</string>
+    <string name="enter_airline_to_add_to">Enter Airline to Add to</string>
+    <string name="enter_pretty_airline">Enter the name of the Airline to pretty-print:</string>
+    <string name="enter_the_name_of_the_airline_to_save">Enter the name of the airline to save:</string>
+    <string name="readme">README\nName: Yasmine Saleh\nCourse: CS 410: The Joy of Coding with Java and Android\nInstructor: David Whitlock\nAssignment: Project 5: A Small Device Application for an Airline\n\nWelcome to my Airline Android Application. This app can create new airlines and flight based on the fields you enter. You can add new airlines, add new flights to an airline, save an airline\'s contents to a file, view a specific airline\'s flights in pretty format, or search for an airline\'s flights between two airports."</string>
 </resources>

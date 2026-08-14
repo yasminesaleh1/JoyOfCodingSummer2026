@@ -28,20 +28,30 @@ public class MainActivity extends AppCompatActivity {
     public void createAirline(View view) {
         Intent intent = new Intent(this, newAirlineActivity.class);
         startActivity(intent);
-
-        // use for errors?
-        //Toast.makeText(this, "Error: ...", Toast.LENGTH_LONG).show();
     }
 
     public void newFlight(View view) {
+        Intent intent = new Intent(this, newFlightActivity.class);
+        startActivity(intent);
     }
 
     public void viewAirlinePretty(View view) {
+        Intent intent = new Intent(this, prettyAirlineActivity.class);
+        startActivity(intent);
     }
 
     public void searchFlightsBetweenTwoAirports(View view) {
+        Intent intent = new Intent(this, twoAirlinesActivity.class);
+        startActivity(intent);
     }
 
     public void saveAirlineToFile(View view) {
+        Intent intent = new Intent(this, saveAirlineActivity.class);
+        startActivity(intent);
+    }
+
+    public void userHelp(View view) {
+        Intent intent = new Intent(this, showHelpActivity.class);
+        startActivity(intent);
     }
 }
