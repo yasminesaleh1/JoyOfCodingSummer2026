@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -36,12 +37,13 @@ public class newAirlineActivity extends AppCompatActivity {
 
     // Reference: https://developer.android.com/develop/ui/views/notifications/snackbar/showing
     // https://www.geeksforgeeks.org/android/how-to-create-an-alert-dialog-box-in-android/
+    // https://developer.android.com/training/data-storage/app-specific#internal-access-files
     public void addNewAirline(View view) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage("Information is missing from the airline name box. Please enter an airline name").setTitle("Error: Empty Fields")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
         AlertDialog missingInformation = builder1.create();
@@ -52,6 +54,7 @@ public class newAirlineActivity extends AppCompatActivity {
 
         if (airlineName.isEmpty()) {
             missingInformation.show();
+            return;
         }
 
         // check there's no airline with that name already
@@ -63,11 +66,12 @@ public class newAirlineActivity extends AppCompatActivity {
                 builder.setMessage("This airline already exists. Please enter a new airline.").setTitle("Error: Airline already exists")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                return;
             }
         }
 
@@ -78,7 +82,7 @@ public class newAirlineActivity extends AppCompatActivity {
         td.dump(newAirline);
 
         // inform the user the airline was successfully created
-        Snackbar successSnackbar = Snackbar.make(view, "Airline Successfully Added!", 40);
+        Snackbar successSnackbar = Snackbar.make(view, "Airline Successfully Added!", BaseTransientBottomBar.LENGTH_SHORT);
         successSnackbar.show();
 
     }

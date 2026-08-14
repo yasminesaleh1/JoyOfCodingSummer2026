@@ -12,9 +12,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+
+import edu.pdx.cs.joy.ParserException;
 
 public class newFlightActivity extends AppCompatActivity {
 
@@ -34,7 +37,7 @@ public class newFlightActivity extends AppCompatActivity {
         finish();
     }
 
-    public void addNewFlight(View view) {
+    public void addNewFlight(View view) throws ParserException {
         // error for airline not existing
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("This airline does not exist. Please enter an existing airline.").setTitle("Error: Airline doesn't exist")
@@ -49,7 +52,7 @@ public class newFlightActivity extends AppCompatActivity {
         builder1.setMessage("Information is missing from at least one of the boxes. Please fill in every box for flight information.").setTitle("Error: Empty Fields")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
         AlertDialog missingInformation = builder1.create();
@@ -58,7 +61,7 @@ public class newFlightActivity extends AppCompatActivity {
         builder2.setMessage("Flight number must not contain anything other than numbers 0-9 and it cannot be negative. Please enter a positive flight number with no other characters.").setTitle("Error: Invalid Flight Number")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
         AlertDialog invalidFlightNum = builder2.create();
@@ -67,7 +70,7 @@ public class newFlightActivity extends AppCompatActivity {
         builder3.setMessage("Source Airport code must only contain three characters and must not contain anything other than letters. Please enter a source airport code with only 3 letters.").setTitle("Error: Invalid Source Airport")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
         AlertDialog invalidSrc = builder3.create();
@@ -76,7 +79,7 @@ public class newFlightActivity extends AppCompatActivity {
         builder4.setMessage("Destination Airport code must only contain three characters and must not contain anything other than letters. Please enter a destination airport code with only 3 letters.").setTitle("Error: Invalid Destination Airport")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
         AlertDialog invalidDest = builder4.create();
@@ -85,7 +88,7 @@ public class newFlightActivity extends AppCompatActivity {
         builder5.setMessage("Departure date format is invalid. Please enter the departure date in the format MM/DD/YYYY HH:MM AM/PM").setTitle("Invalid Departure Date")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
         AlertDialog invalidDepart = builder5.create();
@@ -94,7 +97,7 @@ public class newFlightActivity extends AppCompatActivity {
         builder6.setMessage("Arrival date format is invalid. Please enter the arrival date in the format MM/DD/YYYY HH:MM AM/PM").setTitle("Invalid Arrival Date")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.cancel(); finish();
                     }
                 });
         AlertDialog invalidArrive = builder6.create();
@@ -115,27 +118,33 @@ public class newFlightActivity extends AppCompatActivity {
         if (airlineName.isEmpty() || flightNumString.isEmpty() || src.isEmpty()
                 || depart.isEmpty() || dest.isEmpty() || arrive.isEmpty()) {
             missingInformation.show();
+            return;
         }
 
         if (!flightNumString.matches("[0-9]+")) {
             invalidFlightNum.show();
+            return;
         }
 
         if (!src.matches("[a-zA-Z]+") || !(src.matches(".{3}"))) {
             invalidSrc.show();
+            return;
         }
 
         if (!dest.matches("[a-zA-Z]+") || !(dest.matches(".{3}"))) {
             invalidDest.show();
+            return;
         }
 
         // invalid departure date/time
         if (!depart.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2} (AM|PM)")) {
             invalidDepart.show();
+            return;
         }
 
         if (!arrive.matches("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4} [0-9]{1,2}:[0-9]{2} (AM|PM)")) {
             invalidArrive.show();
+            return;
         }
 
 
@@ -148,16 +157,19 @@ public class newFlightActivity extends AppCompatActivity {
             if (f.equals(fileName)) {
                 airlineExists = true;
 
+                File file = new File(this.getFilesDir(), fileName);
+                TextParser tp = new TextParser(file);
+
                 // add new airline and store its contents into a file in internal storage
-                Airline newAirline = new Airline(airlineName);
+                Airline airline = tp.parse();
                 Flight newFlight = new Flight(flightNum, src, depart, dest, arrive);
-                newAirline.addFlight(newFlight);
+                airline.addFlight(newFlight);
                 File airlineFile = new File(getApplicationContext().getFilesDir(), fileName);
                 TextDumper td = new TextDumper(airlineFile);
-                td.dump(newAirline);
+                td.dump(airline);
 
                 // inform the user the airline was successfully created
-                Snackbar successSnackbar = Snackbar.make(view, "Flight Successfully Added!", 40);
+                Snackbar successSnackbar = Snackbar.make(view, "Flight Successfully Added!", BaseTransientBottomBar.LENGTH_SHORT);
                 successSnackbar.show();
             }
         }

@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -39,9 +40,19 @@ public class saveAirlineActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         AlertDialog missingInformation = builder1.create();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("This airline does not exist. Please enter an existing airline.").setTitle("Error: Airline doesn't exist")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel(); finish();
+                    }
+                });
+        AlertDialog invalidAirlineDialog = builder.create();
 
         EditText airlineNameWidget = findViewById(R.id.enter_airline_name);
         String airlineName = airlineNameWidget.getText().toString();
@@ -50,6 +61,7 @@ public class saveAirlineActivity extends AppCompatActivity {
 
         if (airlineName.isEmpty()) {
             missingInformation.show();
+            return;
         }
 
         // check there's no airline with that name already (file already exists then)
@@ -61,15 +73,12 @@ public class saveAirlineActivity extends AppCompatActivity {
             }
         }
         if (!exists) {
-            // add new airline and store its contents into a file in internal storage
-            Airline newAirline = new Airline(airlineName);
-            File airlineFile = new File(getApplicationContext().getFilesDir(), fileName);
-            TextDumper td = new TextDumper(airlineFile);
-            td.dump(newAirline);
+            invalidAirlineDialog.show();
+            return;
         }
 
         // inform the user the airline was successfully created
-        Snackbar successSnackbar = Snackbar.make(view, "Airline File Successfully Created!", 40);
+        Snackbar successSnackbar = Snackbar.make(view, "Airline File Was Successfully Created!", BaseTransientBottomBar.LENGTH_SHORT);
         successSnackbar.show();
     }
 

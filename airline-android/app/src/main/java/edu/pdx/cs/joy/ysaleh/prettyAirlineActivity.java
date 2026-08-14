@@ -47,11 +47,26 @@ public class prettyAirlineActivity extends AppCompatActivity {
                 });
         AlertDialog invalidAirlineDialog = builder.create();
 
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Information is missing from the airline name box. Please enter an airline name").setTitle("Error: Empty Fields")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+        AlertDialog missingInformation = builder1.create();
+
         EditText airlineNameWidget = findViewById(R.id.enter_airline_name);
         String airlineName = airlineNameWidget.getText().toString();
         String fileName = airlineName.toLowerCase() + ".txt";
         boolean airlineExists = false;
         String prettyPrintedAirline = null;
+
+        if (airlineName.isEmpty()) {
+            missingInformation.show();
+            return;
+        }
 
         String[] files = this.fileList();
         for (String f : files) {

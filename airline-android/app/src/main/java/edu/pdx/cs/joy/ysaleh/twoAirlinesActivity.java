@@ -50,6 +50,7 @@ public class twoAirlinesActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         AlertDialog invalidSrc = builder3.create();
@@ -59,6 +60,7 @@ public class twoAirlinesActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         AlertDialog invalidDest = builder4.create();
@@ -68,6 +70,7 @@ public class twoAirlinesActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         AlertDialog missingInformation = builder1.create();
@@ -80,15 +83,18 @@ public class twoAirlinesActivity extends AppCompatActivity {
         EditText destWidget = findViewById(R.id.enter_dest);
         String dest = destWidget.getText().toString();
 
+        if (airlineName.isEmpty() || src.isEmpty() || dest.isEmpty()) {
+            missingInformation.show();
+            return;
+        }
         if (!src.matches("[a-zA-Z]+") || !(src.matches(".{3}"))) {
             invalidSrc.show();
+            return;
         }
 
         if (!dest.matches("[a-zA-Z]+") || !(dest.matches(".{3}"))) {
             invalidDest.show();
-        }
-        if (airlineName.isEmpty() || src.isEmpty() || dest.isEmpty()) {
-            missingInformation.show();
+            return;
         }
 
         String fileName = airlineName.toLowerCase() + ".txt";
