@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Airline</string>
+    <string name="welcome">Welcome to my Airline Application!</string>
+    <string name="say_hello">Say hello</string>
+    <string name="new_airline">Create a New Airline</string>
+    <string name="new_flight">Enter a New Flight</string>
+    <string name="view_airline">View an Airline\'s Flights (Pretty)</string>
+    <string name="search_flights">Search Flights Between Two Airports</string>
+    <string name="save_file">Save an Airline to a File</string>
+    <string name="help">HELP</string>
+    <string name="plane_emoji">✈️</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="back_to_main">← Back to Main</string>
 </resources>

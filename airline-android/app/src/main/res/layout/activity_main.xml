@@ -2,18 +2,175 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#BC5F5F"
+    android:backgroundTint="#DDEAF4"
     tools:context=".MainActivity">
 
+    <!-- reference: https://stackoverflow.com/questions/32671004/how-to-change-the-color-of-a-button -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:id="@+id/textView"
+        android:layout_width="351dp"
+        android:layout_height="104dp"
+        android:fontFamily="@font/alegreya_medium"
+        android:gravity="center"
+        android:text="@string/welcome"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <!-- CREATE A NEW AIRLINE -->
+    <Button
+        android:id="@+id/new_airline"
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/alegreya_bold"
+        android:text="@string/new_airline"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:onClick="createAirline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.049" />
+
+    <!-- ENTER A NEW FLIGHT -->
+    <Button
+        android:id="@+id/new_flight"
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/alegreya_bold"
+        android:text="@string/new_flight"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:onClick="newFlight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.239" />
+
+    <!-- VIEW AN AIRLINES FLIGHTS (PRETTY) -->
+    <Button
+        android:id="@+id/view_airline"
+        android:layout_width="347dp"
+        android:layout_height="79dp"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/alegreya_bold"
+        android:text="@string/view_airline"
+        android:textColor="@color/black"
+        android:textSize="23sp"
+        android:onClick="viewAirlinePretty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.43"
+        tools:ignore="OnClick" />
+
+    <!-- SEARCH FLIGHTS BETWEEN TWO AIRPORTS -->
+    <Button
+        android:id="@+id/search_flights"
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/alegreya_bold"
+        android:text="@string/search_flights"
+        android:textColor="@color/black"
+        android:textSize="23sp"
+        android:onClick="searchFlightsBetweenTwoAirports"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.616"
+        tools:ignore="OnClick" />
+
+    <!-- SAVE AN AIRLINE TO A FILE -->
+    <Button
+        android:id="@+id/save_file"
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/alegreya_bold"
+        android:text="@string/save_file"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:onClick="saveAirlineToFile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.807" />
+
+    <!-- HELP -->
+    <Button
+        android:id="@+id/help"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/alegreya_bold"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="@string/help"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:onClick="userHelp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.97" />
+
+
+
+    <!-- AIRPLANE ICONS
+    Reference for "background tint" line: AI overview from google search "how to remove line under text box in Android Studio" -->
+    <EditText
+        android:id="@+id/icon2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:autofillHints=""
+        android:backgroundTint="@android:color/transparent"
+        android:clickable="false"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/plane_emoji"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="LabelFor" />
+
+    <EditText
+        android:id="@+id/icon1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:autofillHints=""
+        android:backgroundTint="@android:color/transparent"
+        android:clickable="false"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/plane_emoji"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="LabelFor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
