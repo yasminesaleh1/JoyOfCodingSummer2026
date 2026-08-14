@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".newAirlineActivity">
 
+    <!-- back to main button -->
     <Button
         android:id="@+id/button"
         android:layout_width="204dp"
@@ -19,4 +20,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.025" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="409dp"
+        android:layout_height="500dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.597">
+
+        <!-- confirm button  -->
+        <Button
+            android:id="@+id/confirm_button"
+            android:layout_width="251dp"
+            android:layout_height="85dp"
+            android:text="@string/confirm"
+            android:textSize="34sp"
+            android:onClick="addNewAirline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.886" />
+
+        <!-- enter airline prompt  -->
+        <TextView
+            android:id="@+id/enterAirlinePrompt"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:inputType="none"
+            android:text="@string/enter_airline_prompt"
+            android:textAlignment="center"
+            android:textSize="42sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.094" />
+
+        <!-- Text box for entering airline name
+        Reference for "android:hint" line: AI overview from Google search "how to make initial text disappear when typing in text box in android studio" -->
+        <EditText
+            android:id="@+id/airline_name_text_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_here"
+            android:ems="10"
+            android:inputType="text"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterAirlinePrompt"
+            app:layout_constraintVertical_bias="0.427" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

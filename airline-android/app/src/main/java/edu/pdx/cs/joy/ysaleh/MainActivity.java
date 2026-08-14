@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, newAirlineActivity.class);
         startActivity(intent);
 
-
         // use for errors?
         //Toast.makeText(this, "Error: ...", Toast.LENGTH_LONG).show();
     }
